@@ -14,7 +14,7 @@ struct ExampleListItemPreview {
 export default struct ExampleListItem {
   title?: string;
   subtitle?: string;
-
+ 
   build() {
     ListItem() {
       Button() {
