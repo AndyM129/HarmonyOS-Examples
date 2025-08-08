@@ -61,3 +61,12 @@ export struct MainPage {
   }
 }
 
+@Preview
+@Component
+struct MyComponent {
+  build() {
+    Column() {
+      Text('自定义组件').margin(10)
+    }.width("100%")
+  }
+}
