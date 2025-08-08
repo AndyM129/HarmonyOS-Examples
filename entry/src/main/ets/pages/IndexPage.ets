@@ -37,6 +37,10 @@ struct Index {
         this.getUIContext().getRouter().pushUrl({ url: 'examples/example_04_component/MainPage' })
       })
 
+      ExampleListItem({ title: "布局", subtitle: "pushUrl：examples/example_05_layout/MainPage" }).onClick(() => {
+        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_05_layout/MainPage' })
+      })
+
       ExampleListItem({ title: "临时测试", subtitle: "pushUrl：examples/example_temp/MainPage" }).onClick(() => {
         this.getUIContext().getRouter().pushUrl({ url: 'examples/example_temp/MainPage' })
       })
