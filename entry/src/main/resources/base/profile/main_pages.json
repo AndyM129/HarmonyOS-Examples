@@ -4,6 +4,7 @@
     "examples/example_00/MainPage",
     "examples/example_01/MainPage",
     "examples/example_02_login/MainPage",
+    "examples/example_03_event_hub/MainPage",
     "examples/example_temp/MainPage"
   ]
 }

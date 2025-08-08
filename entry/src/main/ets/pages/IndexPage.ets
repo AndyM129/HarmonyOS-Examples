@@ -29,6 +29,10 @@ struct Index {
         this.getUIContext().getRouter().pushUrl({ url: 'examples/example_02_login/MainPage' })
       })
 
+      ExampleListItem({ title: "使用EventHub进行数据通信", subtitle: "pushUrl：examples/example_03_event_hub/MainPage" }).onClick(() => {
+        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_03_event_hub/MainPage' })
+      })
+
       ExampleListItem({ title: "临时测试", subtitle: "pushUrl：examples/example_temp/MainPage" }).onClick(() => {
         this.getUIContext().getRouter().pushUrl({ url: 'examples/example_temp/MainPage' })
       })
