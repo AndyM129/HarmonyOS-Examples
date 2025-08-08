@@ -1,13 +1,13 @@
 import { common } from '@kit.AbilityKit';
 import { router } from '@kit.ArkUI';
 
-export class ItemModel {
+class ItemModel {
   title: string | null = null;
 }
 
 
 @Observed
-export class ViewModel {
+class ViewModel {
   @Track pageTitle: string | null = 'MainPage';
   @Track items: ItemModel[] | null = [];
   @Track count: number = 1
@@ -17,7 +17,7 @@ export class ViewModel {
 @Preview
 @Entry
 @Component
-export struct MainPage {
+struct MainPage {
   @State viewModel: ViewModel = new ViewModel()
   @State context: common.UIAbilityContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 

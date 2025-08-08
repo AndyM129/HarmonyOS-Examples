@@ -1,6 +1,6 @@
 @Entry
 @Component
-struct MainPage {
+struct Example00_MainPage {
   @State message: string = 'Hello World';
 
   build() {
