@@ -1,11 +1,9 @@
-// Second.ets
-// 导入页面路由模块
 import { BusinessError } from '@kit.BasicServicesKit';
 
 @Preview
 @Entry
 @Component
-struct Example_01 {
+struct MainPage {
   @State message: string = 'Hi there';
 
   build() {

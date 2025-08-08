@@ -9,20 +9,28 @@ struct Index {
   build() {
     List() {
 
-      ExampleListItem({ title: "Hello World", subtitle: "pushUrl：pages/Example_00" }).onClick(() => {
-        this.getUIContext().getRouter().pushUrl({ url: 'pages/Example_00' })
+      ExampleListItem({ title: "Hello World", subtitle: "pushUrl：examples/example_00/MainPage" }).onClick(() => {
+        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_00/MainPage' })
       })
 
-      ExampleListItem({ title: "实现页面间的跳转", subtitle: "pushUrl：pages/Example_01" }).onClick(() => {
+      ExampleListItem({ title: "实现页面间的跳转", subtitle: "pushUrl：examples/example_01/MainPage" }).onClick(() => {
         this.getUIContext()
           .getRouter()
-          .pushUrl({ url: 'pages/Example_01' })
+          .pushUrl({ url: 'examples/example_01/MainPage' })
           .then(() => {
             console.info('Succeeded in jumping to the specified page.')
           })
           .catch((err: BusinessError) => {
             console.error(`Failed to jump to the specified page. Code is ${err.code}, message is ${err.message}`)
           })
+      })
+
+      ExampleListItem({ title: "登录页", subtitle: "pushUrl：examples/example_02_login/MainPage" }).onClick(() => {
+        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_02_login/MainPage' })
+      })
+
+      ExampleListItem({ title: "临时测试", subtitle: "pushUrl：examples/example_temp/MainPage" }).onClick(() => {
+        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_temp/MainPage' })
       })
 
     }.height('100%').width('100%').divider({ strokeWidth: 1, color: '#dddddd' })
