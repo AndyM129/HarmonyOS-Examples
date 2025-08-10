@@ -1,7 +1,7 @@
 type Nil = null | undefined;
 
 @ObservedV2
-class ItemModel {
+class MainPageItemModel {
   title?: string | Nil;
 
   constructor(title?: string | Nil) {
@@ -11,10 +11,9 @@ class ItemModel {
 
 
 @ObservedV2
-class ViewModel {
+class MainPageViewModel {
   @Trace pageTitle: string | null = 'MainPage';
-  @Trace items: ItemModel[] | null = [];
-  @Trace count: number = 1
+  @Trace items: MainPageItemModel[] | null = [];
 }
 
 
@@ -22,7 +21,7 @@ class ViewModel {
 @Entry
 @ComponentV2
 struct MainPage {
-  viewModel: ViewModel = new ViewModel()
+  viewModel: MainPageViewModel = new MainPageViewModel()
 
   aboutToAppear() {
     console.info('[MainPage] aboutToAppear')
@@ -93,13 +92,13 @@ struct MainPage {
           Text(`当前计数：${this.viewModel.items?.length}`).fontSize(18)
           Blank().layoutWeight(1)
           Button('增加计数').onClick(() => {
-            this.viewModel.items?.push(new ItemModel(`Item ${this.viewModel.items.length}`))
+            this.viewModel.items?.push(new MainPageItemModel(`Item ${this.viewModel.items.length}`))
           })
         }
       }
 
-      ForEach(this.viewModel.items, (item: ItemModel) => {
-        MyListItem({ title: item.title })
+      ForEach(this.viewModel.items, (item: MainPageItemModel) => {
+        MainPageListItem({ title: item.title })
       }, (item: string, index: number) => item)
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
 
@@ -108,7 +107,7 @@ struct MainPage {
 
 @Preview
 @Component
-struct MyListItem {
+struct MainPageListItem {
   @State title: string | Nil = null
 
   build() {
