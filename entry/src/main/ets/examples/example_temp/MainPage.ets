@@ -1,8 +1,7 @@
-import { common } from '@kit.AbilityKit';
-import { router } from '@kit.ArkUI';
 
 type Nil = null | undefined;
 
+@ObservedV2
 class ItemModel {
   title?: string | Nil;
 
@@ -25,7 +24,6 @@ class ViewModel {
 @ComponentV2
 struct MainPage {
   viewModel: ViewModel = new ViewModel()
-  context: common.UIAbilityContext = this.getUIContext().getHostContext() as common.UIAbilityContext;
 
   aboutToAppear() {
     console.info('[MainPage] aboutToAppear')
@@ -52,28 +50,67 @@ struct MainPage {
   }
 
   build() {
-    Column({ space: 20 }) {
-      Text(this.viewModel.pageTitle).fontSize(24).fontWeight(FontWeight.Bold).textAlign(TextAlign.Center)
-      Text(`当前计数：${this.viewModel.items?.length}`).fontSize(18)
-      Button('增加计数').onClick(() => {
-        this.viewModel.items?.push(new ItemModel(`Item ${this.viewModel.items.length}`))
-      })
-      Button('back').onClick(() => {
-        router.back()
-      })
-      List() {
-        ForEach(this.viewModel.items, (item: ItemModel) => {
-          MyListItem({ title: item.title })
-        }, (item: string, index: number) => item)
-      }.layoutWeight(1)
-    }.width('100%').height('100%').padding(20)
+    Column() {
+      this.pageTitleBarBuilder()
+      this.pageBodyBuilder()
+    }.width('100%').height('100%')
+  }
+
+  // 标题栏
+  @Builder
+  pageTitleBarBuilder() {
+    Column() {
+      RelativeContainer() {
+        Button('返回', { type: ButtonType.Normal })
+          .backgroundColor(Color.Transparent)
+          .fontColor(Color.Gray)
+          .onClick((event: ClickEvent) => {
+            this.getUIContext().getRouter().back()
+          })
+        Text(this.viewModel.pageTitle)
+          .id('title')
+          .fontSize(18)
+          .fontColor(0x222222)
+          .fontWeight(FontWeight.Normal)
+          .maxLines(1)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .alignRules({
+            center: { anchor: '__container__', align: VerticalAlign.Center },
+            middle: { anchor: '__container__', align: HorizontalAlign.Center },
+          })
+          .margin({ left: 50, right: 50 })
+      }.height(43).width("100%")
+    }.expandSafeArea([SafeAreaType.SYSTEM]).backgroundColor('#F2F3F5')
+  }
+
+  @Builder
+  pageBodyBuilder() {
+    List({ space: 10 }) {
+      ListItem() {
+      }
+
+      ListItem() {
+        Row() {
+          Text(`当前计数：${this.viewModel.items?.length}`).fontSize(18)
+          Blank().layoutWeight(1)
+          Button('增加计数').onClick(() => {
+            this.viewModel.items?.push(new ItemModel(`Item ${this.viewModel.items.length}`))
+          })
+        }
+      }
+
+      ForEach(this.viewModel.items, (item: ItemModel) => {
+        MyListItem({ title: item.title })
+      }, (item: string, index: number) => item)
+    }.padding({ left: 10, right: 10 }).layoutWeight(1)
+
   }
 }
 
 @Preview
 @Component
 struct MyListItem {
-  @Prop title: string | Nil
+  @State title: string | Nil = null
 
   build() {
     ListItem() {
