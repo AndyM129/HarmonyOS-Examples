@@ -1,4 +1,3 @@
-
 type Nil = null | undefined;
 
 @ObservedV2
@@ -102,7 +101,7 @@ struct MainPage {
       ForEach(this.viewModel.items, (item: ItemModel) => {
         MyListItem({ title: item.title })
       }, (item: string, index: number) => item)
-    }.padding({ left: 10, right: 10 }).layoutWeight(1)
+    }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
 
   }
 }

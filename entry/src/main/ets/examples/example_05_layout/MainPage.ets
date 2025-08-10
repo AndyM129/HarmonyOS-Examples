@@ -1,7 +1,7 @@
 @Preview
 @Entry
 @Component
-struct MainPage {
+struct Example05_MainPage {
   @State title: string = 'MainPage'
   @State count: number = 0
   pathStack: NavPathStack = new NavPathStack();
