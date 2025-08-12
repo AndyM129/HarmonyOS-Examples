@@ -1,5 +1,5 @@
 // import { Columns, ColumnType, Entity, Id, Index, NotNull } from '@ohos/dataorm';
-
+//
 // @Entity('WkDocModel')
 // class WkDocModel {
 //   @Columns({ columnName: 'pkId', types: ColumnType.num }) @Id({ autoincrement: true }) pkId?: number; // 主键id
@@ -15,7 +15,7 @@
 
 
 @ObservedV2
-class Example07_MainPageItemModel {
+class Example08_MainPageItemModel {
   title?: string | null;
 
   constructor(title?: string | null) {
@@ -25,40 +25,40 @@ class Example07_MainPageItemModel {
 
 
 @ObservedV2
-class Example07_MainPageViewModel {
-  @Trace pageTitle: string | null = 'Example07_MainPage';
-  @Trace items: Example07_MainPageItemModel[] | null = [];
+class Example08_MainPageViewModel {
+  @Trace pageTitle: string | null = 'Example08_MainPage';
+  @Trace items: Example08_MainPageItemModel[] | null = [];
   @Trace count: number = 1
 }
 
 @Preview
 @Entry
 @ComponentV2
-struct Example07_MainPage {
-  viewModel: Example07_MainPageViewModel = new Example07_MainPageViewModel()
+struct Example08_MainPage {
+  viewModel: Example08_MainPageViewModel = new Example08_MainPageViewModel()
 
   aboutToAppear() {
-    console.info('[Example07_MainPage] aboutToAppear')
+    console.info('[Example08_MainPage] aboutToAppear')
   }
 
   onDidBuild(): void {
-    console.info('[Example07_MainPage] onDidBuild')
+    console.info('[Example08_MainPage] onDidBuild')
   }
 
   onPageShow(): void {
-    console.info('[Example07_MainPage] onPageShow')
+    console.info('[Example08_MainPage] onPageShow')
   }
 
   onBackPress(): boolean | void {
-    console.info('[Example07_MainPage] onBackPress')
+    console.info('[Example08_MainPage] onBackPress')
   }
 
   onPageHide(): void {
-    console.info('[Example07_MainPage] onPageHide')
+    console.info('[Example08_MainPage] onPageHide')
   }
 
   aboutToDisappear() {
-    console.info('[Example07_MainPage] aboutToDisappear')
+    console.info('[Example08_MainPage] aboutToDisappear')
   }
 
   build() {
@@ -104,13 +104,13 @@ struct Example07_MainPage {
   @Builder
   pageBodyActionListViewBuilder() {
     List({ space: 10 }) {
-      Example07_MainPageBodyActionListItem({ title: '创建数据库' }).onClick(() => {
+      Example08_MainPageBodyActionListItem({ title: '创建数据库' }).onClick(() => {
         this.getUIContext().getPromptAction().showToast({
           message: 'Hello World'
         });
       })
-      Example07_MainPageBodyActionListItem({ title: '创建数据库' }).onClick(() => {
-        this.viewModel.items?.push(new Example07_MainPageItemModel(`Item ${this.viewModel.items.length}`))
+      Example08_MainPageBodyActionListItem({ title: '创建数据库' }).onClick(() => {
+        this.viewModel.items?.push(new Example08_MainPageItemModel(`Item ${this.viewModel.items.length}`))
       })
     }.lanes(3).padding({ left: 10, right: 10 }).borderColor(Color.Gray).borderWidth({ bottom: 0.5 })
   }
@@ -118,8 +118,8 @@ struct Example07_MainPage {
   @Builder
   pageBodyDataListViewBuilder() {
     List({ space: 10 }) {
-      ForEach(this.viewModel.items, (item: Example07_MainPageItemModel) => {
-        Example07_MainPageDataListItem({ title: item.title })
+      ForEach(this.viewModel.items, (item: Example08_MainPageItemModel) => {
+        Example08_MainPageDataListItem({ title: item.title })
       }, (item: string, index: number) => item)
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
@@ -127,7 +127,7 @@ struct Example07_MainPage {
 
 @Preview
 @Component
-struct Example07_MainPageBodyActionListItem {
+struct Example08_MainPageBodyActionListItem {
   title?: string | null = null
 
   build() {
@@ -143,7 +143,7 @@ struct Example07_MainPageBodyActionListItem {
 
 @Preview
 @Component
-struct Example07_MainPageDataListItem {
+struct Example08_MainPageDataListItem {
   @State title?: string | null = null
 
   build() {

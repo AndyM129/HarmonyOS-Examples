@@ -9,6 +9,7 @@
     "examples/example_05_layout/MainPage",
     "examples/example_06_list/MainPage",
     "examples/example_07_ark_data/MainPage",
+    "examples/example_08_dataorm/MainPage",
     "examples/example_temp/MainPage"
   ]
 }
