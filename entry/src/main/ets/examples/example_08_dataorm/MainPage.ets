@@ -5,19 +5,19 @@ import { WkDocModel } from './WkDocModel';
 
 @ObservedV2
 class Example08_MainPageItemModel {
-  title?: string | null;
+  docModel?: WkDocModel | null;
 
-  constructor(title?: string | null) {
-    this.title = title;
+  constructor(docModel?: WkDocModel | null) {
+    this.docModel = docModel;
   }
 }
 
 
 @ObservedV2
 class Example08_MainPageViewModel {
-  @Trace pageTitle: string | null = 'Example08_MainPage';
+  @Trace pageTitle: string | null = 'dataorm examples';
   @Trace items: Example08_MainPageItemModel[] | null = [];
-  @Trace count: number = 1
+  @Trace docModels: WkDocModel[] | null = [];
 }
 
 @Preview
@@ -93,10 +93,19 @@ struct Example08_MainPage {
   @Builder
   pageBodyActionListViewBuilder() {
     List({ space: 10 }) {
-      Example08_MainPageBodyActionListItem({ title: '创建数据库' }).onClick(() => {
-        this.getUIContext().getPromptAction().showToast({
-          message: 'Hello World'
-        });
+
+      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(async () => {
+        let entityClass = GlobalContext.getContext().getValue(GlobalContext.KEY_CLS) as Record<string, Object>;
+        let properties = entityClass.WkDocModel as Record<string, Property>;
+
+        let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
+        let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
+
+        let docModelsQuery = docModelDao.queryBuilder().orderAsc(properties.lastViewedTimestamp).build();
+        let docModels: Array<WkDocModel> = await docModelsQuery.list();
+        hilog.info(0x0000, 'dataorm', `list - ${docModels.length} 条: ${JSON.stringify(docModels)}`);
+
+        this.viewModel.docModels = docModels
       })
 
       Example08_MainPageBodyActionListItem({ title: '新增数据' }).onClick(() => {
@@ -110,26 +119,16 @@ struct Example08_MainPage {
         docModelDao.insert(docModel)
       })
 
-      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(async () => {
-        let entityClass = GlobalContext.getContext().getValue(GlobalContext.KEY_CLS) as Record<string, Object>;
-        let properties = entityClass.WkDocModel as Record<string, Property>;
 
-        let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
-        let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
-
-        let docModelsQuery = docModelDao.queryBuilder().orderAsc(properties.lastViewedTimestamp).build();
-        let docModels: Array<WkDocModel> = await docModelsQuery.list();
-        hilog.info(0x0000, 'dataorm', `list - ${docModels.length} 条: ${JSON.stringify(docModels)}`);
-      })
     }.lanes(3).padding({ left: 10, right: 10 }).borderColor(Color.Gray).borderWidth({ bottom: 0.5 })
   }
 
   @Builder
   pageBodyDataListViewBuilder() {
     List({ space: 10 }) {
-      ForEach(this.viewModel.items, (item: Example08_MainPageItemModel) => {
-        Example08_MainPageDataListItem({ title: item.title })
-      }, (item: string, index: number) => item)
+      ForEach(this.viewModel.docModels, (docModel: WkDocModel) => {
+        Example08_MainPageDataListItem({ docModel: docModel })
+      }, (docModel: WkDocModel, index: number) => docModel.docId)
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 }
@@ -153,13 +152,23 @@ struct Example08_MainPageBodyActionListItem {
 @Preview
 @Component
 struct Example08_MainPageDataListItem {
-  @State title?: string | null = null
+  @State docModel?: WkDocModel | null = null
 
   build() {
     ListItem() {
       Column() {
-        Text(this.title).margin(10)
+        Row() {
+          Text(`DocId=${this.docModel?.docId}`).fontSize(18)
+          Blank().width(10)
+          Text(this.docModel?.title)
+            .fontSize(18)
+            .layoutWeight(1)
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+        }.width('100%').justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Center)
+
+        Text(this.docModel?.formattedLastViewedDate).fontSize(13).fontColor('#b8b8b8')
       }.width("100%").alignItems(HorizontalAlign.Start)
-    }
+    }.padding({ top: 5, bottom: 5 })
   }
 }

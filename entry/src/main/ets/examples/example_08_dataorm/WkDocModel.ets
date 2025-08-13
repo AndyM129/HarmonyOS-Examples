@@ -21,4 +21,14 @@ export class WkDocModel {
   set lastViewedDate(value: Date | null) {
     this.lastViewedTimestamp = value ? value.getTime() : null;
   }
+
+  get formattedLastViewedDate() {
+    if (!this.lastViewedDate) {
+      return null
+    }
+
+    let formatter = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    let formatted = formatter.format(this.lastViewedDate);
+    return formatted
+  }
 }
