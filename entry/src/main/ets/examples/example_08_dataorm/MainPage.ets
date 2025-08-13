@@ -4,19 +4,10 @@ import { WkDocModel } from './WkDocModel';
 
 
 @ObservedV2
-class Example08_MainPageItemModel {
-  docModel?: WkDocModel | null;
-
-  constructor(docModel?: WkDocModel | null) {
-    this.docModel = docModel;
-  }
-}
-
-
-@ObservedV2
 class Example08_MainPageViewModel {
   @Trace pageTitle: string | null = 'dataorm examples';
-  @Trace items: Example08_MainPageItemModel[] | null = [];
+  // @Trace items: Example08_MainPageItemModel[] | null = [];
+  // @Trace docDataSource: Example08_MainPageDataSource<WkDocModel> | null = [];
   @Trace docModels: WkDocModel[] | null = [];
 }
 
@@ -106,9 +97,12 @@ struct Example08_MainPage {
         hilog.info(0x0000, 'dataorm', `list - ${docModels.length} 条: ${JSON.stringify(docModels)}`);
 
         this.viewModel.docModels = docModels
+        this.getUIContext().getPromptAction().showToast({
+          message: `已查询所有数据：${this.viewModel.docModels.length}条`
+        });
       })
 
-      Example08_MainPageBodyActionListItem({ title: '新增数据' }).onClick(() => {
+      Example08_MainPageBodyActionListItem({ title: '新增1条数据' }).onClick(async () => {
         let docModel = new WkDocModel();
         docModel.docId = `${Math.floor(Math.random() * 100) + 1}`
         docModel.title = `文档 ${docModel.docId}`
@@ -116,9 +110,13 @@ struct Example08_MainPage {
 
         let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
         let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
-        docModelDao.insert(docModel)
-      })
+        docModel.pkId = await docModelDao.insert(docModel)
 
+        this.viewModel.docModels?.push(docModel)
+        this.getUIContext().getPromptAction().showToast({
+          message: `已新增1条数据，共${this.viewModel.docModels?.length}条`
+        });
+      })
 
     }.lanes(3).padding({ left: 10, right: 10 }).borderColor(Color.Gray).borderWidth({ bottom: 0.5 })
   }
@@ -126,8 +124,12 @@ struct Example08_MainPage {
   @Builder
   pageBodyDataListViewBuilder() {
     List({ space: 10 }) {
-      ForEach(this.viewModel.docModels, (docModel: WkDocModel) => {
-        Example08_MainPageDataListItem({ docModel: docModel })
+
+      // LazyForEach(this.viewModel.docModels, (docModel: WkDocModel) => {
+      // }, (itemGroup: ContactsGroup) => JSON.stringify(itemGroup))
+
+      ForEach(this.viewModel.docModels, (docModel: WkDocModel, index: number) => {
+        Example08_MainPageDataListItem({ index: index, docModel: docModel })
       }, (docModel: WkDocModel, index: number) => docModel.docId)
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
@@ -152,12 +154,15 @@ struct Example08_MainPageBodyActionListItem {
 @Preview
 @Component
 struct Example08_MainPageDataListItem {
+  @State index?: number | null = null
   @State docModel?: WkDocModel | null = null
 
   build() {
     ListItem() {
       Column() {
         Row() {
+          Text(`No.${this.index}`).fontSize(13)
+          Blank().width(10)
           Text(`DocId=${this.docModel?.docId}`).fontSize(18)
           Blank().width(10)
           Text(this.docModel?.title)
