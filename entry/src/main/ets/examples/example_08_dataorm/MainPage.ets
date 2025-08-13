@@ -6,7 +6,7 @@ import { WkDocModel } from './WkDocModel';
 @ObservedV2
 class Example08_MainPageViewModel {
   @Trace pageTitle: string | null = 'dataorm examples';
-  @Trace docModels: WkDocModel[] | null = [];
+  @Trace docModels: WkDocModel[] = [];
 }
 
 @Preview
@@ -83,8 +83,12 @@ struct Example08_MainPage {
   @Builder
   pageBodyActionListViewBuilder() {
     List({ space: 10 }) {
-      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(this.reloadDocList)
-      Example08_MainPageBodyActionListItem({ title: '新增1条数据' }).onClick(this.insertNewDocModel)
+      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(() => {
+        this.reloadDocList()
+      })
+      Example08_MainPageBodyActionListItem({ title: '新增1条数据' }).onClick(() => {
+        this.insertNewDocModel()
+      })
     }.lanes(3).padding({ left: 10, right: 10 }).borderColor(Color.Gray).borderWidth({ bottom: 0.5 })
   }
 
@@ -92,8 +96,12 @@ struct Example08_MainPage {
   pageBodyDataListViewBuilder() {
     List({ space: 10 }) {
       ForEach(this.viewModel.docModels, (docModel: WkDocModel, index: number) => {
-        Example08_MainPageDataListItem({ index: index, docModel: docModel })
-      }, (docModel: WkDocModel, index: number) => docModel.docId)
+        Example08_MainPageDataListItem({
+          index: index, docModel: docModel, onSwipeDelete: () => {
+            this.deleteDocModel(index)
+          }
+        })
+      })
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
@@ -124,9 +132,21 @@ struct Example08_MainPage {
     let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
     docModel.pkId = await docModelDao.insert(docModel)
 
-    this.viewModel.docModels?.push(docModel)
+    this.viewModel.docModels.push(docModel)
     this.getUIContext().getPromptAction().showToast({
-      message: `已新增1条数据，共${this.viewModel.docModels?.length}条`
+      message: `已新增1条数据，共${this.viewModel.docModels.length}条`
+    });
+  }
+
+  async deleteDocModel(index: number) {
+    let docModel = this.viewModel.docModels.splice(index, 1)[0];
+
+    let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
+    let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
+    await docModelDao.deleteByKeyAsync(docModel.pkId)
+
+    this.getUIContext().getPromptAction().showToast({
+      message: `已删除1条数据：${docModel.docId}，剩余${this.viewModel.docModels.length}条`
     });
   }
 }
@@ -152,6 +172,7 @@ struct Example08_MainPageBodyActionListItem {
 struct Example08_MainPageDataListItem {
   @State index?: number | null = null
   @State docModel?: WkDocModel | null = null
+  onSwipeDelete?: (event: ClickEvent) => void;
 
   build() {
     ListItem() {
@@ -170,6 +191,15 @@ struct Example08_MainPageDataListItem {
 
         Text(this.docModel?.formattedLastViewedDate).fontSize(13).fontColor('#b8b8b8')
       }.width("100%").alignItems(HorizontalAlign.Start)
-    }.padding({ top: 5, bottom: 5 })
+    }.padding({ top: 5, bottom: 5 }).swipeAction({
+      end: {
+        builder: this.itemEndBuilder,
+      }
+    })
+  }
+
+  @Builder
+  itemEndBuilder() {
+    Button('删除').type(ButtonType.Normal).backgroundColor('#EB5545').onClick(this.onSwipeDelete)
   }
 }
