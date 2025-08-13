@@ -7,11 +7,6 @@ import { WkDocModel } from './WkDocModel';
 class Example08_MainPageViewModel {
   @Trace pageTitle: string | null = 'dataorm examples';
   @Trace docModels: WkDocModel[] | null = [];
-  // @Trace docDataSource = new Example08_MainPageDataSource<WkDocModel>();
-
-  // @Trace docDataSource = new Example08_MainPageDataSource<WkDocModel>(() => {
-  //   return this.docModels
-  // });
 }
 
 @Preview
@@ -22,6 +17,7 @@ struct Example08_MainPage {
 
   aboutToAppear() {
     console.info('[Example08_MainPage] aboutToAppear')
+    this.reloadDocList()
   }
 
   onDidBuild(): void {
@@ -87,55 +83,51 @@ struct Example08_MainPage {
   @Builder
   pageBodyActionListViewBuilder() {
     List({ space: 10 }) {
-
-      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(async () => {
-        let entityClass = GlobalContext.getContext().getValue(GlobalContext.KEY_CLS) as Record<string, Object>;
-        let properties = entityClass.WkDocModel as Record<string, Property>;
-
-        let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
-        let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
-
-        let docModelsQuery = docModelDao.queryBuilder().orderAsc(properties.lastViewedTimestamp).build();
-        let docModels: Array<WkDocModel> = await docModelsQuery.list();
-        hilog.info(0x0000, 'dataorm', `list - ${docModels.length} 条: ${JSON.stringify(docModels)}`);
-
-        this.viewModel.docModels = docModels
-        this.getUIContext().getPromptAction().showToast({
-          message: `已查询所有数据：${this.viewModel.docModels.length}条`
-        });
-      })
-
-      Example08_MainPageBodyActionListItem({ title: '新增1条数据' }).onClick(async () => {
-        let docModel = new WkDocModel();
-        docModel.docId = `${Math.floor(Math.random() * 100) + 1}`
-        docModel.title = `文档 ${docModel.docId}`
-        docModel.lastViewedDate = new Date() //docModel.lastViewedTimestamp = (new Date()).getTime()
-
-        let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
-        let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
-        docModel.pkId = await docModelDao.insert(docModel)
-
-        this.viewModel.docModels?.push(docModel)
-        this.getUIContext().getPromptAction().showToast({
-          message: `已新增1条数据，共${this.viewModel.docModels?.length}条`
-        });
-      })
-
+      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(this.reloadDocList)
+      Example08_MainPageBodyActionListItem({ title: '新增1条数据' }).onClick(this.insertNewDocModel)
     }.lanes(3).padding({ left: 10, right: 10 }).borderColor(Color.Gray).borderWidth({ bottom: 0.5 })
   }
 
   @Builder
   pageBodyDataListViewBuilder() {
     List({ space: 10 }) {
-
       ForEach(this.viewModel.docModels, (docModel: WkDocModel, index: number) => {
         Example08_MainPageDataListItem({ index: index, docModel: docModel })
       }, (docModel: WkDocModel, index: number) => docModel.docId)
-
-      // LazyForEach(this.viewModel.docDataSource, (docModel: WkDocModel, index: number) => {
-      //   Example08_MainPageDataListItem({ index: index, docModel: docModel })
-      // }, (docModel: WkDocModel, index: number) => docModel.docId)
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
+  }
+
+  async reloadDocList() {
+    let entityClass = GlobalContext.getContext().getValue(GlobalContext.KEY_CLS) as Record<string, Object>;
+    let properties = entityClass.WkDocModel as Record<string, Property>;
+
+    let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
+    let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
+
+    let docModelsQuery = docModelDao.queryBuilder().orderAsc(properties.lastViewedTimestamp).build();
+    let docModels: Array<WkDocModel> = await docModelsQuery.list();
+    hilog.info(0x0000, 'dataorm', `list - ${docModels.length} 条: ${JSON.stringify(docModels)}`);
+
+    this.viewModel.docModels = docModels
+    this.getUIContext().getPromptAction().showToast({
+      message: `已查询所有数据：${this.viewModel.docModels.length}条`
+    });
+  }
+
+  async insertNewDocModel() {
+    let docModel = new WkDocModel();
+    docModel.docId = `${Math.floor(Math.random() * 100) + 1}`
+    docModel.title = `文档 ${docModel.docId}`
+    docModel.lastViewedDate = new Date() //docModel.lastViewedTimestamp = (new Date()).getTime()
+
+    let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
+    let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
+    docModel.pkId = await docModelDao.insert(docModel)
+
+    this.viewModel.docModels?.push(docModel)
+    this.getUIContext().getPromptAction().showToast({
+      message: `已新增1条数据，共${this.viewModel.docModels?.length}条`
+    });
   }
 }
 
