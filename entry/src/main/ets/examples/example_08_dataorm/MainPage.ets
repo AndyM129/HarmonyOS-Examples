@@ -1,17 +1,6 @@
-// import { Columns, ColumnType, Entity, Id, Index, NotNull } from '@ohos/dataorm';
-//
-// @Entity('WkDocModel')
-// class WkDocModel {
-//   @Columns({ columnName: 'pkId', types: ColumnType.num }) @Id({ autoincrement: true }) pkId?: number; // 主键id
-//   @Columns({ columnName: 'docId', types: ColumnType.str }) @NotNull() @Index(true) docId?: string;
-//   @Columns({ columnName: 'title', types: ColumnType.str }) title?: string;
-//
-//   constructor(pkId?: number, docId?: string, title?: string) {
-//     this.pkId = pkId;
-//     this.docId = docId;
-//     this.title = title;
-//   }
-// }
+import { hilog } from '@kit.PerformanceAnalysisKit';
+import { BaseDao, DaoSession, GlobalContext, Property } from '@ohos/dataorm';
+import { WkDocModel } from './WkDocModel';
 
 
 @ObservedV2
@@ -109,8 +98,28 @@ struct Example08_MainPage {
           message: 'Hello World'
         });
       })
-      Example08_MainPageBodyActionListItem({ title: '创建数据库' }).onClick(() => {
-        this.viewModel.items?.push(new Example08_MainPageItemModel(`Item ${this.viewModel.items.length}`))
+
+      Example08_MainPageBodyActionListItem({ title: '新增数据' }).onClick(() => {
+        let docModel = new WkDocModel();
+        docModel.docId = `${Math.floor(Math.random() * 100) + 1}`
+        docModel.title = `文档 ${docModel.docId}`
+        docModel.lastViewedDate = new Date() //docModel.lastViewedTimestamp = (new Date()).getTime()
+
+        let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
+        let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
+        docModelDao.insert(docModel)
+      })
+
+      Example08_MainPageBodyActionListItem({ title: '查询所有数据' }).onClick(async () => {
+        let entityClass = GlobalContext.getContext().getValue(GlobalContext.KEY_CLS) as Record<string, Object>;
+        let properties = entityClass.WkDocModel as Record<string, Property>;
+
+        let daoSession = GlobalContext.getContext().getValue("daoSession") as DaoSession;
+        let docModelDao: BaseDao<WkDocModel, number> | null = daoSession.getBaseDao(WkDocModel);
+
+        let docModelsQuery = docModelDao.queryBuilder().orderAsc(properties.lastViewedTimestamp).build();
+        let docModels: Array<WkDocModel> = await docModelsQuery.list();
+        hilog.info(0x0000, 'dataorm', `list - ${docModels.length} 条: ${JSON.stringify(docModels)}`);
       })
     }.lanes(3).padding({ left: 10, right: 10 }).borderColor(Color.Gray).borderWidth({ bottom: 0.5 })
   }
