@@ -6,9 +6,12 @@ import { WkDocModel } from './WkDocModel';
 @ObservedV2
 class Example08_MainPageViewModel {
   @Trace pageTitle: string | null = 'dataorm examples';
-  // @Trace items: Example08_MainPageItemModel[] | null = [];
-  // @Trace docDataSource: Example08_MainPageDataSource<WkDocModel> | null = [];
   @Trace docModels: WkDocModel[] | null = [];
+  // @Trace docDataSource = new Example08_MainPageDataSource<WkDocModel>();
+
+  // @Trace docDataSource = new Example08_MainPageDataSource<WkDocModel>(() => {
+  //   return this.docModels
+  // });
 }
 
 @Preview
@@ -125,12 +128,13 @@ struct Example08_MainPage {
   pageBodyDataListViewBuilder() {
     List({ space: 10 }) {
 
-      // LazyForEach(this.viewModel.docModels, (docModel: WkDocModel) => {
-      // }, (itemGroup: ContactsGroup) => JSON.stringify(itemGroup))
-
       ForEach(this.viewModel.docModels, (docModel: WkDocModel, index: number) => {
         Example08_MainPageDataListItem({ index: index, docModel: docModel })
       }, (docModel: WkDocModel, index: number) => docModel.docId)
+
+      // LazyForEach(this.viewModel.docDataSource, (docModel: WkDocModel, index: number) => {
+      //   Example08_MainPageDataListItem({ index: index, docModel: docModel })
+      // }, (docModel: WkDocModel, index: number) => docModel.docId)
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 }
