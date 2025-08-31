@@ -51,8 +51,13 @@ struct Index {
         this.getUIContext().getRouter().pushUrl({ url: 'examples/example_07_ark_data/MainPage' })
       })
 
-      ExampleListItem({ title: "@ohos/dataorm", subtitle: "pushUrl：examples/example_08_dataorm/MainPage" }).onClick(() => {
-        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_08_dataorm/MainPage' })
+      ExampleListItem({ title: "@ohos/dataorm", subtitle: "pushUrl：examples/example_08_dataorm/MainPage" })
+        .onClick(() => {
+          this.getUIContext().getRouter().pushUrl({ url: 'examples/example_08_dataorm/MainPage' })
+        })
+
+      ExampleListItem({ title: "Promise", subtitle: "pushUrl：examples/example_09_promise/MainPage" }).onClick(() => {
+        this.getUIContext().getRouter().pushUrl({ url: 'examples/example_09_promise/MainPage' })
       })
 
       ExampleListItem({ title: "临时测试", subtitle: "pushUrl：examples/example_temp/MainPage" }).onClick(() => {
