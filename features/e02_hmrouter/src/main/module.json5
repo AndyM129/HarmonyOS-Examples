@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "e02_hmrouter",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

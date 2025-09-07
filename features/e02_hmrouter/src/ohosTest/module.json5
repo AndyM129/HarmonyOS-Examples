@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "e02_hmrouter_test",
+    "type": "feature",
+    "deviceTypes": [
+      "default"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false
+  }
+}

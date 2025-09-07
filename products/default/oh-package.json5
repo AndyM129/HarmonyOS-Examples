@@ -6,6 +6,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "e01_hello_world": "file:../../features/e01_hello_world"
+    "e01_hello_world": "file:../../features/e01_hello_world",
+    "e02_hmrouter": "file:../../features/e02_hmrouter"
   }
 }

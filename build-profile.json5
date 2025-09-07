@@ -49,6 +49,10 @@
     {
       "name": "ui_components",
       "srcPath": "./commons/ui_components",
+    },
+    {
+      "name": "e02_hmrouter",
+      "srcPath": "./features/e02_hmrouter",
     }
   ]
 }
