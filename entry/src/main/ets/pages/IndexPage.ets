@@ -1,23 +1,32 @@
 @Entry
 @Component
 struct IndexPage {
-  @State message: string = 'Hello World';
+  @State count: number = 0;
 
   build() {
     RelativeContainer() {
-      Text(this.message)
-        .id('HelloWorld')
-        .fontSize($r('app.float.page_text_font_size'))
+      Column() {
+        Text('Hello HarmonyOS').fontSize(30).fontWeight(FontWeight.Bold)
+        Text(`You have pushed the button ${this.count} times.`).margin({ top: 10 })
+      }.alignRules({
+        middle: { anchor: '__container__', align: HorizontalAlign.Center },
+        center: { anchor: '__container__', align: VerticalAlign.Center }
+      }).margin({ bottom: 100 })
+      
+      Button('+1')
+        .width(50)
+        .height(50)
+        .fontSize(15)
         .fontWeight(FontWeight.Bold)
         .alignRules({
-          center: { anchor: '__container__', align: VerticalAlign.Center },
-          middle: { anchor: '__container__', align: HorizontalAlign.Center }
+          right: { anchor: '__container__', align: HorizontalAlign.End },
+          bottom: { anchor: '__container__', align: VerticalAlign.Bottom }
         })
+        .margin({ right: 30, bottom: 100 })
         .onClick(() => {
-          this.message = 'Welcome';
+          this.count++;
         })
-    }
-    .height('100%')
-    .width('100%')
+
+    }.height('100%').width('100%')
   }
 }
