@@ -1,6 +1,6 @@
-@Entry
+
 @Component
-struct IndexPage {
+export struct HelloWorldPage {
   @State count: number = 0;
 
   build() {
@@ -12,7 +12,7 @@ struct IndexPage {
         middle: { anchor: '__container__', align: HorizontalAlign.Center },
         center: { anchor: '__container__', align: VerticalAlign.Center }
       }).margin({ bottom: 100 })
-      
+
       Button('+1')
         .width(50)
         .height(50)

@@ -27,8 +27,8 @@
   },
   "modules": [
     {
-      "name": "entry",
-      "srcPath": "./entry",
+      "name": "default",
+      "srcPath": "./products/default",
       "targets": [
         {
           "name": "default",
@@ -37,6 +37,18 @@
           ]
         }
       ]
+    },
+    {
+      "name": "e01_hello_world",
+      "srcPath": "./features/e01_hello_world",
+    },
+    {
+      "name": "utils",
+      "srcPath": "./commons/utils",
+    },
+    {
+      "name": "ui_components",
+      "srcPath": "./commons/ui_components",
     }
   ]
 }

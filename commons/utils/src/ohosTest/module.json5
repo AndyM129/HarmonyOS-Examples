@@ -1,9 +1,9 @@
 {
   "module": {
-    "name": "entry_test",
+    "name": "utils_test",
     "type": "feature",
     "deviceTypes": [
-      "phone"
+      "default"
     ],
     "deliveryWithInstall": true,
     "installationFree": false

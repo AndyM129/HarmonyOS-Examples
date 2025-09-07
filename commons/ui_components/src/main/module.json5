@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "ui_components",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

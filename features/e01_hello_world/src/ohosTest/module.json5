@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "e01_hello_world_test",
+    "type": "feature",
+    "deviceTypes": [
+      "default"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false
+  }
+}

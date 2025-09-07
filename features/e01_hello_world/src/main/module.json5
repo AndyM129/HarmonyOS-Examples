@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "e01_hello_world",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}
