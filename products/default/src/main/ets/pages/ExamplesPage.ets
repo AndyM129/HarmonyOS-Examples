@@ -1,5 +1,5 @@
 import { HMRouter } from '@hadss/hmrouter';
-import { ExamplesPageItemModel } from '../models/ExamplesPageItemModel';
+import { ExamplesPageItemModel } from 'models/src/main/ets/models/ExamplesPageItemModel';
 import { ExamplesPageViewModel } from '../view_models/ExamplesPageViewModel';
 import { ExamplesPageListItem } from '../views/ExamplesPageListItem';
 
@@ -67,7 +67,7 @@ export struct ExamplesPage {
     List({ space: 10 }) {
       ForEach(this.viewModel.itemModels, (itemModel: ExamplesPageItemModel) => {
         ExamplesPageListItem({ itemModel: itemModel })
-      }, (itemModel: ExamplesPageItemModel, index: number) => itemModel.title)
+      }, (itemModel: ExamplesPageItemModel, index: number) => index.toString())
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 }

@@ -1,5 +1,7 @@
 import { HMLifecycleState, HMPageParam, HMParamType, HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { JSON } from '@kit.ArkTS';
+import { ExamplesPageItemModel } from 'models';
+
 
 // 详见文档：https://ohpm.openharmony.cn/#/cn/detail/@hadss%2Fhmrouter
 @HMRouter({ pageUrl: 'HMRouterExampleMainPage', lifecycle: 'pageLifecycle', animator: 'pageAnimator' })
@@ -8,6 +10,17 @@ export struct HMRouterExampleMainPage {
   // 获取生命周期中定义的状态变量
   // @State model: ObservedModel | null = (HMRouterMgr.getCurrentLifecycleOwner()?.getLifecycle() as PageLifecycle).model
   @State pageParam: HMPageParam = HMRouterMgr.getCurrentParam(HMParamType.all) as HMPageParam
+
+  // 静态方法，用于在示例页面中展示
+  static examplesPageItemModel() {
+    return new ExamplesPageItemModel({
+      title: 'HMRouterExampleMainPage', subtitle: 'This is an HMRouter example', onClick: () => {
+        HMRouterMgr.push({
+          pageUrl: 'HMRouterExampleMainPage?msg=abcdef', param: { msg: '111' }
+        });
+      }
+    });
+  }
 
   aboutToAppear() {
     console.info('[HMRouterExampleMainPage] aboutToAppear')

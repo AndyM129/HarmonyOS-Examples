@@ -1,7 +1,21 @@
+import { HMRouter, HMRouterMgr } from '@hadss/hmrouter';
+import { ExamplesPageItemModel } from 'models';
 
+@HMRouter({ pageUrl: 'HelloWorldPage' })
 @Component
 export struct HelloWorldPage {
   @State count: number = 0;
+
+  // 静态方法，用于在示例页面中展示
+  static examplesPageItemModel() {
+    return new ExamplesPageItemModel({
+      title: 'HelloWorldPage', subtitle: 'This is an HelloWorld example', onClick: () => {
+        HMRouterMgr.push({
+          pageUrl: 'HelloWorldPage', param: {}
+        });
+      }
+    });
+  }
 
   build() {
     RelativeContainer() {

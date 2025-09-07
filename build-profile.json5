@@ -53,6 +53,10 @@
     {
       "name": "e02_hmrouter",
       "srcPath": "./features/e02_hmrouter",
+    },
+    {
+      "name": "models",
+      "srcPath": "./commons/models",
     }
   ]
 }

@@ -1,19 +1,14 @@
-import { HMRouterMgr } from '@hadss/hmrouter';
-import { ExamplesPageItemModel } from '../models/ExamplesPageItemModel';
+import { HelloWorldPage } from 'e01_hello_world';
+import { HMRouterExampleMainPage } from 'e02_hmrouter';
+import { ExamplesPageItemModel } from 'models/src/main/ets/models/ExamplesPageItemModel';
 
 @ObservedV2
 export class ExamplesPageViewModel {
-  @Trace pageTitle?: string | null = 'ExamplesPage';
+  @Trace pageTitle?: string | null = 'HarmonyOS Examples';
   @Trace itemModels: ExamplesPageItemModel[] = [];
 
   reloadItemModels() {
-    this.itemModels.push(new ExamplesPageItemModel({
-      title: 'HMRouterExampleMainPage', subtitle: 'This is an HMRouter example', onClick: () => {
-        HMRouterMgr.push({
-          pageUrl: 'HMRouterExampleMainPage?msg=abcdef', param: { msg: '111' }
-        });
-      }
-    }));
-
+    this.itemModels.push(HelloWorldPage.examplesPageItemModel());
+    this.itemModels.push(HMRouterExampleMainPage.examplesPageItemModel());
   }
 }

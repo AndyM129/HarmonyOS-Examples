@@ -1,4 +1,4 @@
-import { ExamplesPageItemModel } from '../models/ExamplesPageItemModel'
+import { ExamplesPageItemModel } from 'models/src/main/ets/models/ExamplesPageItemModel'
 
 @Preview
 @ComponentV2
