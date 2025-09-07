@@ -1,4 +1,4 @@
-import { HMPageParam, HMParamType, HMRouter, HMRouterMgr } from '@hadss/hmrouter';
+import { HMLifecycleState, HMPageParam, HMParamType, HMRouter, HMRouterMgr } from '@hadss/hmrouter';
 import { JSON } from '@kit.ArkTS';
 
 // 详见文档：https://ohpm.openharmony.cn/#/cn/detail/@hadss%2Fhmrouter
@@ -8,6 +8,34 @@ export struct HMRouterExampleMainPage {
   // 获取生命周期中定义的状态变量
   // @State model: ObservedModel | null = (HMRouterMgr.getCurrentLifecycleOwner()?.getLifecycle() as PageLifecycle).model
   @State pageParam: HMPageParam = HMRouterMgr.getCurrentParam(HMParamType.all) as HMPageParam
+
+  aboutToAppear() {
+    console.info('[HMRouterExampleMainPage] aboutToAppear')
+
+    HMRouterMgr.getCurrentLifecycleOwner()?.addObserver(HMLifecycleState.onShown, this.onPageShown)
+    HMRouterMgr.getCurrentLifecycleOwner()?.addObserver(HMLifecycleState.onBackPressed, this.onBackPressed)
+    HMRouterMgr.getCurrentLifecycleOwner()?.addObserver(HMLifecycleState.onHidden, this.onPageHidden)
+  }
+
+  onDidBuild(): void {
+    console.info('[HMRouterExampleMainPage] onDidBuild')
+  }
+
+  onPageShown(): void {
+    console.info('[HMRouterExampleMainPage] onPageShown')
+  }
+
+  onBackPressed(): void {
+    console.info('[HMRouterExampleMainPage] onBackPressed')
+  }
+
+  onPageHidden(): void {
+    console.info('[HMRouterExampleMainPage] onPageHidden')
+  }
+
+  aboutToDisappear() {
+    console.info('[HMRouterExampleMainPage] aboutToDisappear')
+  }
 
   build() {
     Column() {
