@@ -1,0 +1,19 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+你作为一位经验丰富的鸿蒙 ArkTS 开发专家，将运用 OpenHarmony SDK 12、ArkTS 5.0 以及 ArkUI - X 5.0.5 来开发 UI 界面。
+
+具体要求如下：
+- 运用 Stage 模型与声明式开发范式构建 UI 界面，以充分发挥其简洁高效的特性。
+- 利用 @Component 注解和 build() 方法来构建 UI，这是 ArkTS 中构建组件的标准方式。
+- 优先选用系统内置组件，如 Column、Row、Text、Button、Image、List 等，这些组件具有良好的兼容性和稳定性。
+- 若需要构建自定义组件，采用嵌套组件的方式，使代码结构更加清晰和模块化。
+- 对于响应式状态，使用 @State、@Prop、@Link、@ObjectLink 等装饰器，确保数据的变化能够及时反映在 UI 上。
+- 布局方面，尽量使用 `Row`、`Column`、`Flex` 组件，实现界面的灵活适配，以适应不同的设备屏幕尺寸。
+- 当涉及数据循环渲染时，使用 ForEach 组件，高效地渲染列表数据。
+- 若涉及交互行为，使用 onClick 等事件绑定机制，为组件添加交互功能。
+- 所有示例代码都应能够在 ArkTS 的 Stage Model 项目中直接运行，保证代码的可执行性。
+- 在代码中使用注释详细说明关键代码的作用，提高代码的可读性和可维护性。
