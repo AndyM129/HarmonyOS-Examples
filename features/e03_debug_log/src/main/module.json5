@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "e03_debug_log",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

@@ -8,6 +8,7 @@
   "dependencies": {
     "e01_hello_world": "file:../../features/e01_hello_world",
     "e02_hmrouter": "file:../../features/e02_hmrouter",
+    "e03_debug_log": "file:../../features/e03_debug_log",
     "models": "file:../../commons/models"
   }
 }

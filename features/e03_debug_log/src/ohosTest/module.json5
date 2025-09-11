@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "e03_debug_log_test",
+    "type": "feature",
+    "deviceTypes": [
+      "default"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false
+  }
+}
