@@ -1,6 +1,6 @@
-import { HMLifecycleState, HMPageParam, HMParamType, HMRouter, HMRouterMgr } from '@hadss/hmrouter';
-import { JSON } from '@kit.ArkTS';
-import { ExamplesPageItemModel } from 'models';
+import { HMLifecycleState, HMPageParam, HMParamType, HMRouter, HMRouterMgr } from '@hadss/hmrouter'
+import { JSON } from '@kit.ArkTS'
+import { ExamplesPageItemModel } from 'models'
 
 
 // 详见文档：https://ohpm.openharmony.cn/#/cn/detail/@hadss%2Fhmrouter
@@ -17,9 +17,9 @@ export struct HMRouterExampleMainPage {
       title: 'HMRouterExampleMainPage', subtitle: 'This is an HMRouter example', onClick: () => {
         HMRouterMgr.push({
           pageUrl: 'HMRouterExampleMainPage?msg=abcdef', param: { msg: '111' }
-        });
+        })
       }
-    });
+    })
   }
 
   aboutToAppear() {
@@ -60,6 +60,16 @@ export struct HMRouterExampleMainPage {
       // Text(`${this.model?.property}`)
 
       Text(`pageParam = ${JSON.stringify(this.pageParam, null, 4)}`).width('100%').lineHeight(30)
+
+      Button('返回上一页').margin({ top: 10 }).onClick(() => {
+        HMRouterMgr.pop()
+      })
+
+      Button('返回并传递参数').margin({ top: 10 }).onClick(() => {
+        HMRouterMgr.pop({
+          param: { result: 'success', data: { id: 100 } }
+        })
+      })
     }.layoutWeight(1).justifyContent(FlexAlign.Start).alignItems(HorizontalAlign.Start)
   }
 }
