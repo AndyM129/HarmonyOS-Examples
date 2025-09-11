@@ -4,15 +4,18 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 const DOMAIN: number = 0xFF00
 type msgType = string | number | boolean | object
 
-interface DebugLog3CallerInfo {
+export interface DebugLog3CallerInfo {
   stackTrace?: string[]
   stackFrameIndex?: number
   stackFrame?: string
   filePath?: string
   fileDirPath?: string
   fileName?: string
+  fileTitle?: string
   lineNumber?: number
   columnNumber?: number
+  classFunction?: string;
+  className?: string;
   functionName?: string
 }
 
@@ -48,51 +51,79 @@ export class DebugLog3 {
       return
     }
     if (DebugLog3.LEVEL <= DebugLog3.VERBOSE) {
+      // let callerInfo = DebugLog3.getCallerInfo(2)
       console.info(tag, msg)
     }
   }
 
-  static d(...args: msgType[]) {
-    const error = new Error();
-    const stackLines = error.stack?.split("\n");
-    console.debug(`getCallerInfo = ${JSON.stringify(DebugLog3.getCallerInfo(2))}`)
-
+  static d(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let labels: string[] = [];
+    if (Array.isArray(labelsOrMsg)) {
+      labels = labelsOrMsg;
+    } else {
+      args = [labelsOrMsg as msgType, ...args];
+    }
 
     if (!DebugLog3.changeFormat(args)) {
       return
     }
     if (DebugLog3.LEVEL <= DebugLog3.DEBUG) {
-      hilog.debug(DebugLog3.domain, DebugLog3.tag, DebugLog3.format, args)
+      let callerInfo = DebugLog3.getCallerInfo(2)
+      hilog.debug(DebugLog3.domain, DebugLog3.tag, `[${callerInfo.fileName} - ${callerInfo.classFunction} - Line ${callerInfo.lineNumber}${labels.length ? (' #'+labels.join(' #')) : ''}] ${DebugLog3.format}`, args)
     }
 
   }
 
-  static i(...args: msgType[]) {
+  static i(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let labels: string[] = [];
+    if (Array.isArray(labelsOrMsg)) {
+      labels = labelsOrMsg;
+    } else {
+      args = [labelsOrMsg as msgType, ...args];
+    }
+
     if (!DebugLog3.changeFormat(args)) {
       return
     }
     if (DebugLog3.LEVEL <= DebugLog3.INFO) {
-      hilog.info(DebugLog3.domain, DebugLog3.tag, DebugLog3.format, args)
+      let callerInfo = DebugLog3.getCallerInfo(2)
+      hilog.info(DebugLog3.domain, DebugLog3.tag, `[${callerInfo.fileName} - ${callerInfo.classFunction} - Line ${callerInfo.lineNumber}${labels.length ? (' #'+labels.join(' #')) : ''}] ${DebugLog3.format}`, args)
     }
 
   }
 
-  static w(...args: msgType[]) {
+  static w(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let labels: string[] = [];
+    if (Array.isArray(labelsOrMsg)) {
+      labels = labelsOrMsg;
+    } else {
+      args = [labelsOrMsg as msgType, ...args];
+    }
+
     if (!DebugLog3.changeFormat(args)) {
       return
     }
     if (DebugLog3.LEVEL <= DebugLog3.WARN) {
-      hilog.warn(DebugLog3.domain, DebugLog3.tag, DebugLog3.format, args)
+      let callerInfo = DebugLog3.getCallerInfo(2)
+      hilog.warn(DebugLog3.domain, DebugLog3.tag, `[${callerInfo.fileName} - ${callerInfo.classFunction} - Line ${callerInfo.lineNumber}${labels.length ? (' #'+labels.join(' #')) : ''}] ${DebugLog3.format}`, args)
     }
 
   }
 
-  static e(...args: msgType[]) {
+  static e(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let labels: string[] = [];
+    if (Array.isArray(labelsOrMsg)) {
+      labels = labelsOrMsg;
+    } else {
+      args = [labelsOrMsg as msgType, ...args];
+    }
+
     if (!DebugLog3.changeFormat(args)) {
       return
     }
     if (DebugLog3.LEVEL <= DebugLog3.ERROR) {
-      hilog.error(DebugLog3.domain, DebugLog3.tag, DebugLog3.format, args)
+      let callerInfo = DebugLog3.getCallerInfo(2)
+      hilog.error(DebugLog3.domain, DebugLog3.tag, `[${callerInfo.fileName} - ${callerInfo.classFunction} - Line ${callerInfo.lineNumber}${labels.length ? (' #'+labels.join(' #')) : ''}] ${DebugLog3.format}`, args)
     }
 
   }
@@ -142,6 +173,14 @@ export class DebugLog3 {
     callerInfo.stackFrame = callerInfo.stackTrace?.[callerInfo.stackFrameIndex];
 
     if (callerInfo.stackFrame?.length) {
+      let stackFrameClassFunctionStart: number = callerInfo.stackFrame.indexOf("at ") + 3
+      let stackFrameClassFunctionEnd: number = callerInfo.stackFrame.indexOf(" (")
+      let stackFrameClassFunction: string = callerInfo.stackFrame.substring(stackFrameClassFunctionStart, stackFrameClassFunctionEnd)
+      let stackFrameClassFunctionComponents: string[] = stackFrameClassFunction.split(".")
+      callerInfo.classFunction = stackFrameClassFunction
+      callerInfo.className = stackFrameClassFunctionComponents.length > 1 ? stackFrameClassFunctionComponents[0] : undefined
+      callerInfo.functionName = stackFrameClassFunctionComponents.length > 1 ? stackFrameClassFunctionComponents[1] : stackFrameClassFunction
+
       let prettyStackFrameStart: number = callerInfo.stackFrame.indexOf("(") + 1
       let prettyStackFrameEnd: number = callerInfo.stackFrame.indexOf(")")
       let prettyStackFrame: string = callerInfo.stackFrame.substring(prettyStackFrameStart, prettyStackFrameEnd)
@@ -151,6 +190,7 @@ export class DebugLog3 {
       callerInfo.filePath = prettyStackFrame.split(":")[0]
       callerInfo.fileDirPath = callerInfo.filePath.substring(0, callerInfo.filePath.lastIndexOf("/"))
       callerInfo.fileName = stackFrameLastComponentComponents[0]
+      callerInfo.fileTitle = callerInfo.fileName.substring(0, callerInfo.fileName.lastIndexOf("."))
       callerInfo.lineNumber = Number(stackFrameLastComponentComponents[1])
       callerInfo.columnNumber = Number(stackFrameLastComponentComponents[2])
     }

@@ -128,24 +128,19 @@ export struct DebugLogExamplePage {
 
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - 调研 - 获取当前的类名、方法名、行号', subtitle: '', onClick: () => {
-
-          // const error = new Error();
-          // const stackLines = error.stack?.split("\n");
-          // console.debug(`stackLines = ${stackLines}`)
-
-          DebugLog3.d('debug 日志')
-
+          const error = new Error();
+          const stackLines = error.stack?.split("\n");
+          console.debug(`stackLines = ${stackLines}`)
         }
       })
 
-      // this.pageBodyListItemBuilder({
-      //   title: '自定义日志工具类 - DebugLog3', subtitle: '基于 wk 的日志工具类', onClick: () => {
-      //     DebugLog3.d('debug 日志')
-      //     // DebugLog3.i('info 日志')
-      //     // DebugLog3.w('warn 日志')
-      //     // DebugLog3.e('error 日志')
-      //   }
-      // })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - DebugLog3 - 1', subtitle: '基于 wk 的日志工具类', onClick: (): void => this.testDebugLog3_1()
+      })
+
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - DebugLog3 - 2', subtitle: '基于 wk 的日志工具类，并打印标签', onClick: (): void => this.testDebugLog3_2()
+      })
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
@@ -176,5 +171,19 @@ export struct DebugLogExamplePage {
         }
       }.layoutWeight(1).justifyContent(FlexAlign.Start).alignItems(HorizontalAlign.Start)
     }.padding(10).onClick(params.onClick)
+  }
+
+  testDebugLog3_1() {
+    DebugLog3.d('debug 日志')
+    DebugLog3.i('info 日志')
+    DebugLog3.w('warn 日志')
+    DebugLog3.e('error 日志')
+  }
+
+  testDebugLog3_2() {
+    DebugLog3.d(['标签1', '标签2'], 'debug 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog3.i(['标签1', '标签2'], 'info 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog3.w(['标签1', '标签2'], 'warn 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog3.e(['标签1', '标签2'], 'error 日志', 'xxx', 'yyy', 'zzz')
   }
 }
