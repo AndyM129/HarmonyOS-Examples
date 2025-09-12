@@ -127,10 +127,36 @@ export struct DebugLogExamplePage {
       })
 
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - 调研 - 获取当前的类名、方法名、行号', subtitle: '', onClick: () => {
-          const error = new Error();
-          const stackLines = error.stack?.split("\n");
+        title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 1', onClick: () => {
+          const error = new Error()
+          const stackLines = error.stack?.split("\n")
           console.debug(`stackLines = ${stackLines}`)
+        }
+      })
+
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 2', onClick: () => {
+          const DOMAIN = 0xFF00
+          const TAG = "MyApp"
+
+          let callerInfo = DebugLog3.getCallerInfo(1)
+          hilog.debug(DOMAIN, TAG, `[${callerInfo.fileName}:${callerInfo.lineNumber}:${callerInfo.columnNumber} - ${callerInfo.classFunction}] debug 日志`)
+        }
+      })
+
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 3', onClick: () => {
+          const DOMAIN = 0xFF00
+          const TAG = "MyApp"
+
+          let callerInfo = DebugLog3.getCallerInfo(1)
+          hilog.debug(DOMAIN, TAG, `[${callerInfo.filePath}:${callerInfo.lineNumber}:${callerInfo.columnNumber} - ${callerInfo.classFunction}] debug 日志`)
+          hilog.debug(DOMAIN, TAG, `[(${callerInfo.filePath}:${callerInfo.lineNumber}:${callerInfo.columnNumber}) - ${callerInfo.classFunction}] debug 日志`)
+          hilog.debug(DOMAIN, TAG, `[ (${callerInfo.filePath}:${callerInfo.lineNumber}:${callerInfo.columnNumber}) - ${callerInfo.classFunction}] debug 日志`)
+          hilog.debug(DOMAIN, TAG, `[ ${callerInfo.stackFrame} - ${callerInfo.classFunction}] debug 日志`)
+          hilog.debug(DOMAIN, TAG, `[ at ${callerInfo.stackFrame?.trim().split(' ')[2]} - ${callerInfo.classFunction}] debug 日志`)
+          hilog.debug(DOMAIN, TAG, `[ at (${callerInfo.filePath}:${callerInfo.lineNumber}:${callerInfo.columnNumber}) - ${callerInfo.classFunction}] debug 日志`)
+          hilog.debug(DOMAIN, TAG, `[ at ${callerInfo.filePath}:${callerInfo.lineNumber}:${callerInfo.columnNumber} - ${callerInfo.classFunction}] debug 日志`)
         }
       })
 
@@ -155,7 +181,7 @@ export struct DebugLogExamplePage {
             .fontColor(Color.Black)
             .fontStyle(FontStyle.Normal)
             .fontWeight(FontWeight.Normal)
-            .maxLines(1)
+            .maxLines(5)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
         Blank().height(10)
