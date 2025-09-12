@@ -1,5 +1,10 @@
 import { hilog } from '@kit.PerformanceAnalysisKit'
 
+namespace TextUtils { /** 判断空值 */
+  export function isEmpty(str: string | undefined): boolean {
+    return undefined == str || null == str || "" == str || '' == str
+  }
+}
 
 const DOMAIN: number = 0xFF00
 type msgType = string | number | boolean | object
@@ -29,12 +34,6 @@ export interface DebugLog4CallerInfo {
   stackFrame?: DebugLog4CallerStackFrameInfo
 }
 
-namespace TextUtils { /** 判断空值 */
-  export function isEmpty(str: string | undefined): boolean {
-    return undefined == str || null == str || "" == str || '' == str
-  }
-}
-
 /**
  * wk Log 工具
  */
@@ -61,17 +60,17 @@ export class DebugLog4 {
       return
     }
     if (DebugLog4.LEVEL <= DebugLog4.VERBOSE) {
-      // let callerInfo = DebugLog4.getCallerInfo(2)
-      console.info(tag, msg)
+      let callerInfo = DebugLog4.getCallerInfo(2)
+      console.info(`[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${tag?.length ? (' #'+tag) : ''}] ➤ ${msg}`)
     }
   }
 
-  static d(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
-    let labels: string[] = []
-    if (Array.isArray(labelsOrMsg)) {
-      labels = labelsOrMsg
+  static d(tagsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let tags: string[] = []
+    if (Array.isArray(tagsOrMsg)) {
+      tags = tagsOrMsg
     } else {
-      args = [labelsOrMsg as msgType, ...args]
+      args = [tagsOrMsg as msgType, ...args]
     }
 
     if (!DebugLog4.changeFormat(args)) {
@@ -79,17 +78,17 @@ export class DebugLog4 {
     }
     if (DebugLog4.LEVEL <= DebugLog4.DEBUG) {
       let callerInfo = DebugLog4.getCallerInfo(2)
-      hilog.debug(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${labels.length ? (' #'+labels.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
+      hilog.debug(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${tags.length ? (' #'+tags.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
     }
 
   }
 
-  static i(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
-    let labels: string[] = []
-    if (Array.isArray(labelsOrMsg)) {
-      labels = labelsOrMsg
+  static i(tagsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let tags: string[] = []
+    if (Array.isArray(tagsOrMsg)) {
+      tags = tagsOrMsg
     } else {
-      args = [labelsOrMsg as msgType, ...args]
+      args = [tagsOrMsg as msgType, ...args]
     }
 
     if (!DebugLog4.changeFormat(args)) {
@@ -97,17 +96,17 @@ export class DebugLog4 {
     }
     if (DebugLog4.LEVEL <= DebugLog4.INFO) {
       let callerInfo = DebugLog4.getCallerInfo(2)
-      hilog.info(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${labels.length ? (' #'+labels.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
+      hilog.info(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${tags.length ? (' #'+tags.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
     }
 
   }
 
-  static w(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
-    let labels: string[] = []
-    if (Array.isArray(labelsOrMsg)) {
-      labels = labelsOrMsg
+  static w(tagsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let tags: string[] = []
+    if (Array.isArray(tagsOrMsg)) {
+      tags = tagsOrMsg
     } else {
-      args = [labelsOrMsg as msgType, ...args]
+      args = [tagsOrMsg as msgType, ...args]
     }
 
     if (!DebugLog4.changeFormat(args)) {
@@ -115,17 +114,17 @@ export class DebugLog4 {
     }
     if (DebugLog4.LEVEL <= DebugLog4.WARN) {
       let callerInfo = DebugLog4.getCallerInfo(2)
-      hilog.warn(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${labels.length ? (' #'+labels.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
+      hilog.warn(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${tags.length ? (' #'+tags.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
     }
 
   }
 
-  static e(labelsOrMsg?: string[] | msgType, ...args: msgType[]) {
-    let labels: string[] = []
-    if (Array.isArray(labelsOrMsg)) {
-      labels = labelsOrMsg
+  static e(tagsOrMsg?: string[] | msgType, ...args: msgType[]) {
+    let tags: string[] = []
+    if (Array.isArray(tagsOrMsg)) {
+      tags = tagsOrMsg
     } else {
-      args = [labelsOrMsg as msgType, ...args]
+      args = [tagsOrMsg as msgType, ...args]
     }
 
     if (!DebugLog4.changeFormat(args)) {
@@ -133,7 +132,7 @@ export class DebugLog4 {
     }
     if (DebugLog4.LEVEL <= DebugLog4.ERROR) {
       let callerInfo = DebugLog4.getCallerInfo(2)
-      hilog.error(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${labels.length ? (' #'+labels.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
+      hilog.error(DebugLog4.domain, DebugLog4.tag, `[at (${callerInfo.stackFrame?.at?.location}) - ${callerInfo.stackFrame?.at?.classFunction}${tags.length ? (' #'+tags.join(' #')) : ''}] ➤ ${DebugLog4.format}`, args)
     }
 
   }

@@ -226,11 +226,13 @@ export struct DebugLogExamplePage {
   }
 
   testDebugLog4_1() {
+    DebugLog4.v('', 'verbose 日志')
     DebugLog4.d('debug 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.i('info 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.w('warn 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.e('error 日志', 'xxx', 'yyy', 'zzz')
 
+    DebugLog4.v('标签', 'verbose 日志')
     DebugLog4.d(['标签1', '标签2'], 'debug 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.i(['标签1', '标签2'], 'info 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.w(['标签1', '标签2'], 'warn 日志', 'xxx', 'yyy', 'zzz')
