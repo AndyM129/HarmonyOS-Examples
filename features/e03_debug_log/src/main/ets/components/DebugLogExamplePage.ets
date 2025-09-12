@@ -4,6 +4,7 @@ import { ExamplesPageItemModel } from 'models'
 import { DebugLog1 } from './DebugLog1'
 import { DebugLog2 } from './DebugLog2'
 import { DebugLog3 } from './DebugLog3'
+import { DebugLog4 } from './DebugLog4'
 
 interface DebugLogExamplePageBodyListItemBuilderParams {
   title?: string
@@ -167,6 +168,17 @@ export struct DebugLogExamplePage {
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog3 - 2', subtitle: '基于 wk 的日志工具类，并打印标签', onClick: (): void => this.testDebugLog3_2()
       })
+
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - DebugLog4 调研', subtitle: '获取当前的类名、方法名、行号 - 4', onClick: () => {
+          let callerInfo = DebugLog4.getCallerInfo(1)
+          console.debug(`callerInfo = ${JSON.stringify(callerInfo)}`)
+        }
+      })
+
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - DebugLog4 - 1', subtitle: '基于 wk 的日志工具类，支持打印标签', onClick: (): void => this.testDebugLog4_1()
+      })
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
@@ -211,5 +223,17 @@ export struct DebugLogExamplePage {
     DebugLog3.i(['标签1', '标签2'], 'info 日志', 'xxx', 'yyy', 'zzz')
     DebugLog3.w(['标签1', '标签2'], 'warn 日志', 'xxx', 'yyy', 'zzz')
     DebugLog3.e(['标签1', '标签2'], 'error 日志', 'xxx', 'yyy', 'zzz')
+  }
+
+  testDebugLog4_1() {
+    DebugLog4.d('debug 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog4.i('info 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog4.w('warn 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog4.e('error 日志', 'xxx', 'yyy', 'zzz')
+
+    DebugLog4.d(['标签1', '标签2'], 'debug 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog4.i(['标签1', '标签2'], 'info 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog4.w(['标签1', '标签2'], 'warn 日志', 'xxx', 'yyy', 'zzz')
+    DebugLog4.e(['标签1', '标签2'], 'error 日志', 'xxx', 'yyy', 'zzz')
   }
 }
