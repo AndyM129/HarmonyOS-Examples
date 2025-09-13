@@ -6,6 +6,7 @@
   "author": "",
   "license": "Apache-2.0",
   "dependencies": {
-    "models": "file:../../commons/models"
+    "models": "file:../../commons/models",
+    "@andym129/hilogx": "file:../../ohpm_dev/hilogx"
   }
 }

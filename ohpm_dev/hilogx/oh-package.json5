@@ -1,0 +1,11 @@
+{
+  "name": "@andym129/hilogx",
+  "version": "0.0.1",
+  "description": "hilog wrapper utils for HarmonyOS",
+  "main": "Index.ets",
+  "type": "module",
+  "tags": ["hilog", "log", "debug"],
+  "author": "andym",
+  "license": "andym",
+  "dependencies": {}
+}

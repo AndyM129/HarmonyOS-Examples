@@ -1,3 +1,4 @@
+import { hilogx } from '@andym129/hilogx'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { hilog } from '@kit.PerformanceAnalysisKit'
 import { ExamplesPageItemModel } from 'models'
@@ -178,6 +179,27 @@ export struct DebugLogExamplePage {
 
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog4 - 1', subtitle: '基于 wk 的日志工具类，支持打印标签', onClick: (): void => this.testDebugLog4_1()
+      })
+
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - 1', subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息', onClick: () => {
+          const DOMAIN = 0xFF00
+          const TAG = "MyTag"
+
+          hilogx.defaultDomain = 0xFFFFFF
+          hilogx.defaultTag = 'OHExamples'
+          hilogx.debug(DOMAIN, TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', 'arg1'); // 完整参数
+          hilogx.debug(TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', 'arg1'); // 无 domain
+          hilogx.debug(['标签1'], 'This is a debug message: %{public}s', 'arg1'); // 无 domain 和 tag
+          hilogx.debug('This is a debug message: %{public}s', 'arg1'); // 只有 format 和 args
+          hilogx.debug();
+
+
+          // hilogx.debug('debug 日志')
+          // hilogx.info('info 日志')
+          // hilogx.warn('warn 日志')
+          // hilogx.error('error 日志')
+        }
       })
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }

@@ -1,6 +1,5 @@
 import { HMDefaultGlobalAnimator, HMNavigation } from '@hadss/hmrouter';
 import { AttributeUpdater } from '@kit.ArkUI';
-import { HMRouterExampleMainPage } from 'e02_hmrouter';
 
 @Entry
 @Component
@@ -10,7 +9,7 @@ struct IndexPage {
   build() {
 
     // HMRouter：@Entry中需要再套一层容器组件,Column或者Stack
-    Column(){
+    Column() {
 
       // 使用HMNavigation容器
       HMNavigation({
@@ -21,9 +20,7 @@ struct IndexPage {
           modifier: this.modifier
         }
       })
-    }
-    .height('100%')
-    .width('100%')
+    }.height('100%').width('100%')
   }
 }
 

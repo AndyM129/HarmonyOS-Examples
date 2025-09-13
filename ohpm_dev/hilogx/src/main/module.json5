@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "hilogx",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

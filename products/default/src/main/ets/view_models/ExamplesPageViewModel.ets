@@ -1,3 +1,4 @@
+import { HMRouterMgr } from '@hadss/hmrouter';
 import { HelloWorldPage } from 'e01_hello_world';
 import { HMRouterExampleMainPage } from 'e02_hmrouter';
 import { DebugLogExamplePage } from 'e03_debug_log';
@@ -12,5 +13,12 @@ export class ExamplesPageViewModel {
     this.itemModels.push(HelloWorldPage.examplesPageItemModel());
     this.itemModels.push(HMRouterExampleMainPage.examplesPageItemModel());
     this.itemModels.push(DebugLogExamplePage.examplesPageItemModel());
+    // this.itemModels.push(new ExamplesPageItemModel({
+    //   title: DebugLogExamplePage.PAGE_TITLE, subtitle: DebugLogExamplePage.PAGE_SUBTITLE, onClick: () => {
+    //     HMRouterMgr.push({
+    //       pageUrl: 'DebugLogExamplePage', param: {}
+    //     })
+    //   }
+    // }));
   }
 }

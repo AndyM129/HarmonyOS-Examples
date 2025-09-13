@@ -61,6 +61,10 @@
     {
       "name": "e03_debug_log",
       "srcPath": "./features/e03_debug_log",
+    },
+    {
+      "name": "hilogx",
+      "srcPath": "./ohpm_dev/hilogx",
     }
   ]
 }
