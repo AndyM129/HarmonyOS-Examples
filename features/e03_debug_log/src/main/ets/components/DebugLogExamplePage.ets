@@ -80,8 +80,16 @@ export struct DebugLogExamplePage {
           // 日志标签，方便过滤
           const TAG = "MyApp"
 
-          // %{public}s / %{private}s 用于指定日志是否允许被外部工具明文看到（涉及隐私时要注意）
+          // a. 日志等级。
+          // 说明： 日志级别要符合日志内容的实际级别，日志级别说明如下：
+          // FATAL：重大致命异常，表明程序或功能即将崩溃，故障无法恢复。
+          // ERROR：程序或功能发生了错误，该错误会影响功能的正常运行或用户的正常使用，可以恢复但恢复代价较高，如重置数据等。
+          // WARN：发生了较为严重的非预期情况，但是对用户影响不大，程序可以自动恢复或通过简单的操作就可以恢复的问题。
+          // INFO：用来记录业务关键流程节点，可以还原业务的主要运行过程；用来记录非正常情况信息，但这些情况都是可以预期的(如无网络信号、登录失败等)。这些日志都应该由该业务内处于支配地位的模块来记录，避免在多个被调用的模块或低级函数中重复记录。
+          // DEBUG：比INFO级别更详细的流程记录，通过该级别的日志可以更详细地分析业务流程和定位分析问题。DEBUG级别的日志在正式发布版本中默认不会被打印，只有在调试版本或打开调试开关的情况下才会打印。
+          //
           // 日志等级：debug < info < warn < error < fatal。
+          // %{public}s / %{private}s 用于指定日志是否允许被外部工具明文看到（涉及隐私时要注意）
           hilog.debug(DOMAIN, TAG, "调试日志 message=hello debug")
           hilog.debug(DOMAIN, TAG, "调试日志 message=hello debug", [1, 2, 3])
           hilog.debug(DOMAIN, TAG, "调试日志 message=%{public}s", "hello debug")
@@ -96,6 +104,41 @@ export struct DebugLogExamplePage {
           // 09-11 14:56:06.557   2280-2280     A0ff00/MyApp                    com.examp...examples  W     警告日志 message=hello warn
           // 09-11 14:56:06.557   2280-2280     A0ff00/MyApp                    com.examp...examples  E     错误日志 message=hello error
           // 09-11 14:56:06.557   2280-2280     A0ff00/MyApp                    com.examp...examples  F     严重错误日志 message=hello fatal
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '使用 hilog 模块 - setMinLogLevel',
+        subtitle: 'hilog.LogLevel.DEBUG',
+        onClick: () => {
+          hilog.setMinLogLevel(hilog.LogLevel.DEBUG)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '使用 hilog 模块 - setMinLogLevel',
+        subtitle: 'hilog.LogLevel.INFO',
+        onClick: () => {
+          hilog.setMinLogLevel(hilog.LogLevel.INFO)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '使用 hilog 模块 - setMinLogLevel',
+        subtitle: 'hilog.LogLevel.WARN',
+        onClick: () => {
+          hilog.setMinLogLevel(hilog.LogLevel.WARN)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '使用 hilog 模块 - setMinLogLevel',
+        subtitle: 'hilog.LogLevel.ERROR',
+        onClick: () => {
+          hilog.setMinLogLevel(hilog.LogLevel.ERROR)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '使用 hilog 模块 - setMinLogLevel',
+        subtitle: 'hilog.LogLevel.FATAL',
+        onClick: () => {
+          hilog.setMinLogLevel(hilog.LogLevel.FATAL)
         }
       })
 
@@ -195,6 +238,50 @@ export struct DebugLogExamplePage {
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - hilogx', subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息', onClick: () => {
           this.testHilogx_1()
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - getMinLogLevel',
+        subtitle: undefined,
+        onClick: () => {
+          this.getUIContext().getPromptAction().showToast({
+            message: `hilogx.getMinLogLevel() => ${hilogx.getMinLogLevel()}`
+          });
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - setMinLogLevel',
+        subtitle: `hilogx.LogLevel.DEBUG (${hilogx.LogLevel.DEBUG})`,
+        onClick: () => {
+          hilogx.setMinLogLevel(hilogx.LogLevel.DEBUG)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - setMinLogLevel',
+        subtitle: `hilogx.LogLevel.INFO (${hilogx.LogLevel.INFO})`,
+        onClick: () => {
+          hilogx.setMinLogLevel(hilogx.LogLevel.INFO)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - setMinLogLevel',
+        subtitle: `hilogx.LogLevel.WARN (${hilog.LogLevel.WARN})`,
+        onClick: () => {
+          hilogx.setMinLogLevel(hilogx.LogLevel.WARN)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - setMinLogLevel',
+        subtitle: `hilogx.LogLevel.ERROR (${hilogx.LogLevel.ERROR})`,
+        onClick: () => {
+          hilogx.setMinLogLevel(hilogx.LogLevel.ERROR)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '自定义日志工具类 - hilogx - setMinLogLevel',
+        subtitle: `hilogx.LogLevel.FATAL (${hilogx.LogLevel.FATAL})`,
+        onClick: () => {
+          hilogx.setMinLogLevel(hilogx.LogLevel.FATAL)
         }
       })
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
