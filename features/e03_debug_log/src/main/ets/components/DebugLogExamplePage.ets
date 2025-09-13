@@ -99,6 +99,7 @@ export struct DebugLogExamplePage {
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '使用 console 对象（前端风格）', subtitle: '开发调试时，可以直接用类似 JS 的 console', onClick: () => {
           console.debug("debug 日志")
@@ -114,6 +115,7 @@ export struct DebugLogExamplePage {
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog1', subtitle: '为了统一管理日志，可以自己写一个日志工具类', onClick: () => {
           DebugLog1.debug('hello debug')
@@ -121,6 +123,7 @@ export struct DebugLogExamplePage {
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog2', subtitle: 'wk 的日志工具类', onClick: () => {
           DebugLog2.d('debug 日志')
@@ -130,6 +133,7 @@ export struct DebugLogExamplePage {
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 1', onClick: () => {
           const error = new Error()
@@ -137,7 +141,6 @@ export struct DebugLogExamplePage {
           console.debug(`stackLines = ${stackLines}`)
         }
       })
-
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 2', onClick: () => {
           const DOMAIN = 0xFF00
@@ -147,7 +150,6 @@ export struct DebugLogExamplePage {
           hilog.debug(DOMAIN, TAG, `[${callerInfo.fileName}:${callerInfo.lineNumber}:${callerInfo.columnNumber} - ${callerInfo.classFunction}] debug 日志`)
         }
       })
-
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 3', onClick: () => {
           const DOMAIN = 0xFF00
@@ -164,44 +166,45 @@ export struct DebugLogExamplePage {
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog3 - 1', subtitle: '基于 wk 的日志工具类', onClick: () => {
           this.testDebugLog3_1()
         }
       })
-
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog3 - 2', subtitle: '基于 wk 的日志工具类，并打印标签', onClick: () => {
           this.testDebugLog3_2()
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog4 调研', subtitle: '获取当前的类名、方法名、行号 - 4', onClick: () => {
           let callerInfo = DebugLog4.getCallerInfo(1)
           console.debug(`callerInfo = ${JSON.stringify(callerInfo)}`)
         }
       })
-
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - DebugLog4 - 1', subtitle: '基于 wk 的日志工具类，支持打印标签', onClick: () => {
           this.testDebugLog4_1()
         }
       })
 
+      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - hilogx', subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息', onClick: () => {
           this.testHilogx_1()
         }
       })
-    }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
+    }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
   @Builder
-  pageBodyListItemBuilder(params: DebugLogExamplePageBodyListItemBuilderParams) {
+  pageBodyListItemBuilder(params?: DebugLogExamplePageBodyListItemBuilderParams) {
     ListItem() {
       Column() {
-        if (params.title) {
+        if (params?.title) {
           Text(params.title)
             .width('100%')
             .fontSize(14)
@@ -210,9 +213,10 @@ export struct DebugLogExamplePage {
             .fontWeight(FontWeight.Normal)
             .maxLines(5)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
+          Blank().height(10)
         }
-        Blank().height(10)
-        if (params.subtitle) {
+
+        if (params?.subtitle) {
           Text(params.subtitle)
             .width('100%')
             .fontSize(14)
@@ -223,7 +227,11 @@ export struct DebugLogExamplePage {
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
       }.layoutWeight(1).justifyContent(FlexAlign.Start).alignItems(HorizontalAlign.Start)
-    }.padding(10).onClick(params.onClick)
+    }
+    .width('100%')
+    .padding(10)
+    .backgroundColor(params?.title || params?.subtitle ? undefined : '#F2F3F5')
+    .onClick(params?.onClick)
   }
 
   testDebugLog3_1() {
