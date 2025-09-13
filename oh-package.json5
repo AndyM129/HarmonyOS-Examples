@@ -3,7 +3,8 @@
   "description": "Please describe the basic information.",
   "dependencies": {
     "@hadss/hmrouter": "^1.0.0-rc.10",
-    "@hadss/hmrouter-transitions": "^1.0.0-rc.10"
+    "@hadss/hmrouter-transitions": "^1.0.0-rc.10",
+    "@free/log": "^1.0.0"
   },
   "devDependencies": {
     "@ohos/hypium": "1.0.21",

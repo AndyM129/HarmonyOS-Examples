@@ -1,4 +1,5 @@
 import { hilogx } from '@andym129/hilogx'
+import { closeLog, openLog } from '@free/log'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { hilog } from '@kit.PerformanceAnalysisKit'
 import { ExamplesPageItemModel } from 'models'
@@ -6,6 +7,7 @@ import { DebugLog1 } from './DebugLog1'
 import { DebugLog2 } from './DebugLog2'
 import { DebugLog3 } from './DebugLog3'
 import { DebugLog4 } from './DebugLog4'
+import { util } from '@kit.ArkTS'
 
 interface DebugLogExamplePageBodyListItemBuilderParams {
   title?: string
@@ -71,7 +73,11 @@ export struct DebugLogExamplePage {
     List({ space: 10 }) {
       this.pageBodyListItemBuilder({
         title: '使用 hilog 模块（官方推荐方式）',
-        subtitle: '鸿蒙提供了系统级的日志框架 HiLog，功能类似 iOS 的 os_log 或 Android 的 Log',
+        subtitle: '鸿蒙提供了系统级的日志框架 HiLog，功能类似 iOS 的 os_log 或 Android 的 Log'
+      })
+      this.pageBodyListItemBuilder({
+        title: '基本使用',
+        subtitle: '',
         onClick: () => {
 
           // DOMAIN 自定义的日志域，范围 0x0 - 0xFFFF，建议为项目分配一个固定值，方便过滤
@@ -107,45 +113,51 @@ export struct DebugLogExamplePage {
         }
       })
       this.pageBodyListItemBuilder({
-        title: '使用 hilog 模块 - setMinLogLevel',
-        subtitle: 'hilog.LogLevel.DEBUG',
+        title: 'hilog.setMinLogLevel(hilog.LogLevel.DEBUG)',
+        subtitle: '',
         onClick: () => {
           hilog.setMinLogLevel(hilog.LogLevel.DEBUG)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '使用 hilog 模块 - setMinLogLevel',
-        subtitle: 'hilog.LogLevel.INFO',
+        title: 'hilog.setMinLogLevel(hilog.LogLevel.INFO)',
+        subtitle: '',
         onClick: () => {
           hilog.setMinLogLevel(hilog.LogLevel.INFO)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '使用 hilog 模块 - setMinLogLevel',
-        subtitle: 'hilog.LogLevel.WARN',
+        title: 'hilog.setMinLogLevel(hilog.LogLevel.WARN)',
+        subtitle: '',
         onClick: () => {
           hilog.setMinLogLevel(hilog.LogLevel.WARN)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '使用 hilog 模块 - setMinLogLevel',
-        subtitle: 'hilog.LogLevel.ERROR',
+        title: 'hilog.setMinLogLevel(hilog.LogLevel.ERROR)',
+        subtitle: '',
         onClick: () => {
           hilog.setMinLogLevel(hilog.LogLevel.ERROR)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '使用 hilog 模块 - setMinLogLevel',
-        subtitle: 'hilog.LogLevel.FATAL',
+        title: 'hilog.setMinLogLevel(hilog.LogLevel.FATAL)',
+        subtitle: '',
         onClick: () => {
           hilog.setMinLogLevel(hilog.LogLevel.FATAL)
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '使用 console 对象（前端风格）', subtitle: '开发调试时，可以直接用类似 JS 的 console', onClick: () => {
+        title: '使用 console 对象（前端风格）',
+        subtitle: '开发调试时，可以直接用类似 JS 的 console'
+      })
+      this.pageBodyListItemBuilder({
+        title: '基本使用',
+        subtitle: '',
+        onClick: () => {
           console.debug("debug 日志")
+          console.log("log 日志")
           console.info("info 日志")
           console.warn("warn 日志")
           console.error("error 日志")
@@ -158,17 +170,27 @@ export struct DebugLogExamplePage {
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog1', subtitle: '为了统一管理日志，可以自己写一个日志工具类', onClick: () => {
+        title: '自定义日志工具类 - DebugLog1',
+        subtitle: '为了统一管理日志，可以自己写一个日志工具类'
+      })
+      this.pageBodyListItemBuilder({
+        title: '基本用法',
+        subtitle: '',
+        onClick: () => {
           DebugLog1.debug('hello debug')
           DebugLog1.error('hello error')
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog2', subtitle: 'wk 的日志工具类', onClick: () => {
+        title: '自定义日志工具类 - DebugLog2',
+        subtitle: 'wk 的日志工具类'
+      })
+      this.pageBodyListItemBuilder({
+        title: '基本用法',
+        subtitle: '',
+        onClick: () => {
           DebugLog2.d('debug 日志')
           DebugLog2.i('info 日志')
           DebugLog2.w('warn 日志')
@@ -176,16 +198,21 @@ export struct DebugLogExamplePage {
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 1', onClick: () => {
+        title: '自定义日志工具类 - 调研',
+        subtitle: '获取当前的类名、方法名、行号'
+      })
+      this.pageBodyListItemBuilder({
+        title: '调研 1',
+        onClick: () => {
           const error = new Error()
           const stackLines = error.stack?.split("\n")
           console.debug(`stackLines = ${stackLines}`)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 2', onClick: () => {
+        title: '调研 2',
+        onClick: () => {
           const DOMAIN = 0xFF00
           const TAG = "MyApp"
 
@@ -194,7 +221,8 @@ export struct DebugLogExamplePage {
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - 调研', subtitle: '获取当前的类名、方法名、行号 - 3', onClick: () => {
+        title: '调研 3',
+        onClick: () => {
           const DOMAIN = 0xFF00
           const TAG = "MyApp"
 
@@ -209,40 +237,55 @@ export struct DebugLogExamplePage {
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog3 - 1', subtitle: '基于 wk 的日志工具类', onClick: () => {
+        title: '自定义日志工具类 - DebugLog3 - 1',
+        subtitle: '基于 wk 的日志工具类'
+      })
+      this.pageBodyListItemBuilder({
+        title: '测试 1',
+        onClick: () => {
           this.testDebugLog3_1()
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog3 - 2', subtitle: '基于 wk 的日志工具类，并打印标签', onClick: () => {
+        title: '测试 2', onClick: () => {
           this.testDebugLog3_2()
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog4 调研', subtitle: '获取当前的类名、方法名、行号 - 4', onClick: () => {
+        title: '自定义日志工具类 - DebugLog4 调研',
+        subtitle: '获取当前的类名、方法名、行号'
+      })
+      this.pageBodyListItemBuilder({
+        title: '测试 1', onClick: () => {
           let callerInfo = DebugLog4.getCallerInfo(1)
           console.debug(`callerInfo = ${JSON.stringify(callerInfo)}`)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog4 - 1', subtitle: '基于 wk 的日志工具类，支持打印标签', onClick: () => {
+        title: '测试 2', onClick: () => {
           this.testDebugLog4_1()
         }
       })
 
-      this.pageBodyListItemBuilder()
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx', subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息', onClick: () => {
-          this.testHilogx_1()
+        title: '自定义日志工具类 - hilogx',
+        subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息'
+      })
+      this.pageBodyListItemBuilder({
+        title: '基本使用 - getCallerInfo', onClick: () => {
+          this.testHilogx_getCallerInfo()
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '基本使用 - logs', onClick: () => {
+          this.testHilogx()
         }
       })
       this.pageBodyListItemBuilder({
         title: '自定义日志工具类 - hilogx - getMinLogLevel',
-        subtitle: undefined,
+        subtitle: '',
         onClick: () => {
           this.getUIContext().getPromptAction().showToast({
             message: `hilogx.getMinLogLevel() => ${hilogx.getMinLogLevel()}`
@@ -250,40 +293,78 @@ export struct DebugLogExamplePage {
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx - setMinLogLevel',
-        subtitle: `hilogx.LogLevel.DEBUG (${hilogx.LogLevel.DEBUG})`,
+        title: `hilogx.setMinLogLevel(hilogx.LogLevel.DEBUG - ${hilogx.LogLevel.DEBUG})`,
         onClick: () => {
           hilogx.setMinLogLevel(hilogx.LogLevel.DEBUG)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx - setMinLogLevel',
-        subtitle: `hilogx.LogLevel.INFO (${hilogx.LogLevel.INFO})`,
+        title: `hilogx.setMinLogLevel(hilogx.LogLevel.INFO - ${hilogx.LogLevel.INFO})`,
         onClick: () => {
           hilogx.setMinLogLevel(hilogx.LogLevel.INFO)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx - setMinLogLevel',
-        subtitle: `hilogx.LogLevel.WARN (${hilog.LogLevel.WARN})`,
+        title: `hilogx.setMinLogLevel(hilogx.LogLevel.WARN - ${hilog.LogLevel.WARN})`,
         onClick: () => {
           hilogx.setMinLogLevel(hilogx.LogLevel.WARN)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx - setMinLogLevel',
-        subtitle: `hilogx.LogLevel.ERROR (${hilogx.LogLevel.ERROR})`,
+        title: `hilogx.setMinLogLevel(hilogx.LogLevel.ERROR - ${hilogx.LogLevel.ERROR})`,
         onClick: () => {
           hilogx.setMinLogLevel(hilogx.LogLevel.ERROR)
         }
       })
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx - setMinLogLevel',
-        subtitle: `hilogx.LogLevel.FATAL (${hilogx.LogLevel.FATAL})`,
+        title: `hilogx.setMinLogLevel(hilogx.LogLevel.FATAL - ${hilogx.LogLevel.FATAL})`,
         onClick: () => {
           hilogx.setMinLogLevel(hilogx.LogLevel.FATAL)
         }
       })
+
+      this.pageBodyListItemBuilder({
+        title: '@free/log(V1.0.0)',
+        subtitle: '这是鸿蒙版本基于log控制台输出日志，通过摇晃手机弹出控制台输出日志，为我们快速的定位问题，找准的找到问题。'
+      })
+      this.pageBodyListItemBuilder({
+        title: '开启日志监控 20 摇晃幅度',
+        subtitle: undefined,
+        onClick: () => {
+          openLog(20)
+        }
+      })
+      this.pageBodyListItemBuilder({
+        title: '关闭日志监控',
+        subtitle: undefined,
+        onClick: () => {
+          closeLog()
+        }
+      })
+
+      this.pageBodyListItemBuilder({
+        title: '使用Aspect工具类提供的AOP切面能力实现监控打印日志',
+        subtitle: '详见 https://gitee.com/harmony-free/log/blob/master/src/main/ets/Log.ets#L42-63'
+      })
+      this.pageBodyListItemBuilder({
+        title: '测试1',
+        subtitle: undefined,
+        onClick: () => {
+          util.Aspect.addAfter(console, 'debug', true, (instance: console, method: string, arg: string, ...args: object[]) => {
+            let callerInfo = hilogx.getCallerInfo(1)
+          })
+
+          // console.debug("debug 日志")
+          // console.log("log 日志")
+          // console.info("info 日志")
+          // console.warn("warn 日志")
+          // console.error("error 日志")
+          // hilog.debug(DOMAIN, TAG, "调试日志 message=%{public}s", "hello debug")
+          // hilog.info(DOMAIN, TAG, "普通信息日志 message=%{public}s", "hello info")
+        }
+      })
+
+      this.pageBodyListItemBuilder()
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
@@ -291,7 +372,11 @@ export struct DebugLogExamplePage {
   pageBodyListItemBuilder(params?: DebugLogExamplePageBodyListItemBuilderParams) {
     ListItem() {
       Column() {
-        if (params?.title) {
+        if (!params?.onClick) {
+          Blank().height(20)
+        }
+
+        if (params?.title?.length) {
           Text(params.title)
             .width('100%')
             .fontSize(14)
@@ -300,10 +385,10 @@ export struct DebugLogExamplePage {
             .fontWeight(FontWeight.Normal)
             .maxLines(5)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
-          Blank().height(10)
         }
 
-        if (params?.subtitle) {
+        if (params?.subtitle?.length) {
+          Blank().height(10)
           Text(params.subtitle)
             .width('100%')
             .fontSize(14)
@@ -313,11 +398,11 @@ export struct DebugLogExamplePage {
             .maxLines(10)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
-      }.layoutWeight(1).justifyContent(FlexAlign.Start).alignItems(HorizontalAlign.Start)
+      }.layoutWeight(1).justifyContent(FlexAlign.Start).alignItems(HorizontalAlign.Start).opacity(params?.onClick ? 1 : 0.7)
     }
     .width('100%')
     .padding(10)
-    .backgroundColor(params?.title || params?.subtitle ? undefined : '#F2F3F5')
+    .backgroundColor(params?.onClick ? undefined : '#F2F3F5')
     .onClick(params?.onClick)
   }
 
@@ -349,7 +434,12 @@ export struct DebugLogExamplePage {
     DebugLog4.e(['标签1', '标签2'], 'error 日志', 'xxx', 'yyy', 'zzz')
   }
 
-  testHilogx_1() {
+  testHilogx_getCallerInfo() {
+    let callerInfo = hilogx.getCallerInfo(1)
+    console.debug(`callerInfo = ${JSON.stringify(callerInfo, null, 2)}`)
+  }
+
+  testHilogx() {
     // 测试数据
     const DOMAIN = 0xFF00
     const TAG = "MyTag"
@@ -389,8 +479,5 @@ export struct DebugLogExamplePage {
     hilogx.fatal(['标签1'], `This is a fatal message: ${args}`) // 无 domain 和 tag
     hilogx.fatal(`This is a fatal message: ${args}`) // 只有 format 和 args
     hilogx.fatal()
-
-    let callerInfo = hilogx.getCallerInfo(1)
-    console.debug(`callerInfo = ${JSON.stringify(callerInfo, null, 2)}`)
   }
 }
