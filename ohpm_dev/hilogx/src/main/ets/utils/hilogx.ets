@@ -78,7 +78,7 @@ export namespace hilogx {
 
     // 如果第一个参数是 string，且下一个参数是数组，则将其视为 tag
     if (args.length > 0) {
-      if (typeof args[0] === 'string' && args[1] && Array.isArray(args[1])) {
+      if (typeof args[0] === 'string' && args[1] && (Array.isArray(args[1]) || typeof args[1] === 'string')) {
         logInfo.tag = args.shift() as string;
       }
     }

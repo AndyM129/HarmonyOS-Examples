@@ -82,6 +82,8 @@ export struct DebugLogExamplePage {
 
           // %{public}s / %{private}s 用于指定日志是否允许被外部工具明文看到（涉及隐私时要注意）
           // 日志等级：debug < info < warn < error < fatal。
+          hilog.debug(DOMAIN, TAG, "调试日志 message=hello debug")
+          hilog.debug(DOMAIN, TAG, "调试日志 message=hello debug", [1, 2, 3])
           hilog.debug(DOMAIN, TAG, "调试日志 message=%{public}s", "hello debug")
           hilog.info(DOMAIN, TAG, "普通信息日志 message=%{public}s", "hello info")
           hilog.warn(DOMAIN, TAG, "警告日志 message=%{public}s", "hello warn")
