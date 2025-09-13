@@ -163,11 +163,15 @@ export struct DebugLogExamplePage {
       })
 
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog3 - 1', subtitle: '基于 wk 的日志工具类', onClick: (): void => this.testDebugLog3_1()
+        title: '自定义日志工具类 - DebugLog3 - 1', subtitle: '基于 wk 的日志工具类', onClick: () => {
+          this.testDebugLog3_1()
+        }
       })
 
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog3 - 2', subtitle: '基于 wk 的日志工具类，并打印标签', onClick: (): void => this.testDebugLog3_2()
+        title: '自定义日志工具类 - DebugLog3 - 2', subtitle: '基于 wk 的日志工具类，并打印标签', onClick: () => {
+          this.testDebugLog3_2()
+        }
       })
 
       this.pageBodyListItemBuilder({
@@ -178,27 +182,14 @@ export struct DebugLogExamplePage {
       })
 
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - DebugLog4 - 1', subtitle: '基于 wk 的日志工具类，支持打印标签', onClick: (): void => this.testDebugLog4_1()
+        title: '自定义日志工具类 - DebugLog4 - 1', subtitle: '基于 wk 的日志工具类，支持打印标签', onClick: () => {
+          this.testDebugLog4_1()
+        }
       })
 
       this.pageBodyListItemBuilder({
-        title: '自定义日志工具类 - hilogx - 1', subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息', onClick: () => {
-          const DOMAIN = 0xFF00
-          const TAG = "MyTag"
-
-          hilogx.defaultDomain = 0xFFFFFF
-          hilogx.defaultTag = 'OHExamples'
-          hilogx.debug(DOMAIN, TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', 'arg1'); // 完整参数
-          hilogx.debug(TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', 'arg1'); // 无 domain
-          hilogx.debug(['标签1'], 'This is a debug message: %{public}s', 'arg1'); // 无 domain 和 tag
-          hilogx.debug('This is a debug message: %{public}s', 'arg1'); // 只有 format 和 args
-          hilogx.debug();
-
-
-          // hilogx.debug('debug 日志')
-          // hilogx.info('info 日志')
-          // hilogx.warn('warn 日志')
-          // hilogx.error('error 日志')
+        title: '自定义日志工具类 - hilogx', subtitle: '基于 hilog 的日志工具类，支持打印 log位置信息', onClick: () => {
+          this.testHilogx_1()
         }
       })
     }.padding({ left: 10, right: 10 }).layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
@@ -259,5 +250,50 @@ export struct DebugLogExamplePage {
     DebugLog4.i(['标签1', '标签2'], 'info 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.w(['标签1', '标签2'], 'warn 日志', 'xxx', 'yyy', 'zzz')
     DebugLog4.e(['标签1', '标签2'], 'error 日志', 'xxx', 'yyy', 'zzz')
+  }
+
+  testHilogx_1() {
+    // 测试数据
+    const DOMAIN = 0xFF00
+    const TAG = "MyTag"
+    const args = 'args blablabla'
+
+    // 设置默认值
+    hilogx.defaultDomain = 0xFFFF
+    hilogx.defaultTag = 'OHExamples'
+
+    // log 示例
+    hilogx.debug(DOMAIN, TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', args) // 完整参数
+    hilogx.debug(TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', args) // 无 domain
+    hilogx.debug(['标签1'], `This is a debug message: ${args}`) // 无 domain 和 tag
+    hilogx.debug(`This is a debug message: ${args}`) // 只有 format 和 args
+    hilogx.debug()
+
+    hilogx.info(DOMAIN, TAG, ['标签1', '标签2'], 'This is a info message: %{public}s', args) // 完整参数
+    hilogx.info(TAG, ['标签1', '标签2'], 'This is a info message: %{public}s', args) // 无 domain
+    hilogx.info(['标签1'], `This is a info message: ${args}`) // 无 domain 和 tag
+    hilogx.info(`This is a info message: ${args}`) // 只有 format 和 args
+    hilogx.info()
+
+    hilogx.warn(DOMAIN, TAG, ['标签1', '标签2'], 'This is a warn message: %{public}s', args) // 完整参数
+    hilogx.warn(TAG, ['标签1', '标签2'], 'This is a warn message: %{public}s', args) // 无 domain
+    hilogx.warn(['标签1'], `This is a warn message: ${args}`) // 无 domain 和 tag
+    hilogx.warn(`This is a warn message: ${args}`) // 只有 format 和 args
+    hilogx.warn()
+
+    hilogx.error(DOMAIN, TAG, ['标签1', '标签2'], 'This is a error message: %{public}s', args) // 完整参数
+    hilogx.error(TAG, ['标签1', '标签2'], 'This is a error message: %{public}s', args) // 无 domain
+    hilogx.error(['标签1'], `This is a error message: ${args}`) // 无 domain 和 tag
+    hilogx.error(`This is a error message: ${args}`) // 只有 format 和 args
+    hilogx.error()
+
+    hilogx.fatal(DOMAIN, TAG, ['标签1', '标签2'], 'This is a fatal message: %{public}s', args) // 完整参数
+    hilogx.fatal(TAG, ['标签1', '标签2'], 'This is a fatal message: %{public}s', args) // 无 domain
+    hilogx.fatal(['标签1'], `This is a fatal message: ${args}`) // 无 domain 和 tag
+    hilogx.fatal(`This is a fatal message: ${args}`) // 只有 format 和 args
+    hilogx.fatal()
+
+    let callerInfo = hilogx.getCallerInfo(1)
+    console.debug(`callerInfo = ${JSON.stringify(callerInfo, null, 2)}`)
   }
 }
