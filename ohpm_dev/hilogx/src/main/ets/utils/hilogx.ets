@@ -3,10 +3,10 @@ import { hilog } from '@kit.PerformanceAnalysisKit';
 export namespace hilogx {
 
   /** 默认 Domain */
-  export let defaultDomain = 0x0000
+  export let defaultDomain = 0xA129
 
   /** 默认 Tag */
-  export let defaultTag = 'DefaultTag'
+  export let defaultTag = 'hilogx'
 
   export interface CallerStackFrameAtInfo {
     text?: string

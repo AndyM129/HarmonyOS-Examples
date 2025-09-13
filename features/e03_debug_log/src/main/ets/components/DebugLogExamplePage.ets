@@ -258,16 +258,16 @@ export struct DebugLogExamplePage {
     const TAG = "MyTag"
     const args = 'args blablabla'
 
-    // 设置默认值
-    hilogx.defaultDomain = 0xFFFF
-    hilogx.defaultTag = 'OHExamples'
-
     // log 示例
     hilogx.debug(DOMAIN, TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', args) // 完整参数
     hilogx.debug(TAG, ['标签1', '标签2'], 'This is a debug message: %{public}s', args) // 无 domain
     hilogx.debug(['标签1'], `This is a debug message: ${args}`) // 无 domain 和 tag
     hilogx.debug(`This is a debug message: ${args}`) // 只有 format 和 args
     hilogx.debug()
+
+    // 也可以先支持设置默认值
+    hilogx.defaultDomain = 0xFFFF
+    hilogx.defaultTag = 'OHExamples'
 
     hilogx.info(DOMAIN, TAG, ['标签1', '标签2'], 'This is a info message: %{public}s', args) // 完整参数
     hilogx.info(TAG, ['标签1', '标签2'], 'This is a info message: %{public}s', args) // 无 domain
