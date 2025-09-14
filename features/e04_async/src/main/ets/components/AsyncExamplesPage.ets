@@ -2,6 +2,7 @@ import { hilogx } from '@andym129/hilogx'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { JSON } from '@kit.ArkTS'
 import json from '@ohos.util.json'
+import to from 'await-to-arkts'
 import { ExamplesPageItemModel } from 'models'
 
 interface AsyncExamplesPageBodyListItemBuilderParams {
@@ -16,6 +17,7 @@ class AsyncExamplesPageModel {
   @Trace await_2_result?: ESObject
   @Trace await_3_result?: ESObject
   @Trace await_4_result?: ESObject
+  @Trace await_5_result?: ESObject = []
 }
 
 @HMRouter({ pageUrl: 'AsyncExamplesPage' })
@@ -83,7 +85,7 @@ export struct AsyncExamplesPage {
 
   @Builder
   pageBodyListBuilder() {
-    List({ space: 10 }) {
+    List({ space: 1 }) {
       this.pageBodyListItemBuilder({
         title: 'await', subtitle: ''
       })
@@ -210,6 +212,23 @@ export struct AsyncExamplesPage {
             return false
           })
           hilogx.debugToast(`执行结果：${JSON.stringify(result)}`)
+        }
+      })
+
+      this.pageBodyListItemBuilder({
+        title: 'Promise 异步编程 - await-to-arkts', subtitle: 'Async await wrapper for easy error handling'
+      })
+      this.pageBodyListItemBuilder({
+        title: '⑤ 基本使用：', // subtitle: `执行结果 = ${json.stringify(this.pageModel.await_5_result, null, 2)}`,
+        subtitle: [
+          '执行结果：', `result[0] = ${this.pageModel.await_5_result[0] ?? '(undefined)'}`,
+          `result[1] = ${this.pageModel.await_5_result[1] ?? '(undefined)'}`
+        ], onClick: async () => {
+          hilogx.debug(`====== 分割线 ======`)
+
+          this.pageModel.await_5_result = await to(this.deleteXxxFromNetwork_2())
+          hilogx.debugToast(`执行结果：${JSON.stringify(this.pageModel.await_5_result[1] ??
+          this.pageModel.await_5_result[0].toString())}`)
         }
       })
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
