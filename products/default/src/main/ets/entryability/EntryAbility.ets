@@ -1,6 +1,7 @@
 import { hilogx } from '@andym129/hilogx'
 import { HMRouterMgr } from '@hadss/hmrouter'
 import { AbilityConstant, ConfigurationConstant, UIAbility, Want } from '@kit.AbilityKit'
+import { JSON } from '@kit.ArkTS'
 import { window } from '@kit.ArkUI'
 import { BusinessError } from '@kit.BasicServicesKit'
 
@@ -13,7 +14,9 @@ export default class EntryAbility extends UIAbility {
 
   // 在首次创建UIAbility实例时，系统触发onCreate()回调。开发者可以在该回调中执行UIAbility整个生命周期中仅发生一次的启动逻辑。
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    hilogx.info('EntryAbility onCreate: begin')
+    hilogx.info(`EntryAbility onCreate: begin => ${JSON.stringify({
+      'want': want, 'launchParam': launchParam
+    })}`)
     this.context.getApplicationContext().setColorMode(ConfigurationConstant.ColorMode.COLOR_MODE_NOT_SET)
     this.setupHMRouter()
     hilogx.info('EntryAbility onCreate: end')
