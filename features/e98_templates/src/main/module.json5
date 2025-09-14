@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "e98_templates",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

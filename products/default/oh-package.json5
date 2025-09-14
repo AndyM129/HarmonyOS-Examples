@@ -10,6 +10,7 @@
     "e02_hmrouter": "file:../../features/e02_hmrouter",
     "e03_debug_log": "file:../../features/e03_debug_log",
     "e04_async": "file:../../features/e04_async",
+    "e98_templates": "file:../../features/e98_templates",
     "e99_playground": "file:../../features/e99_playground",
     "models": "file:../../commons/models",
     "@andym129/hilogx": "file:../../ohpm_dev/hilogx"

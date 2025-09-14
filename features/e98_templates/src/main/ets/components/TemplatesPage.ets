@@ -1,28 +1,26 @@
-import { hilogx } from '@andym129/hilogx'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
-import { JSON } from '@kit.ArkTS'
 import { ExamplesPageItemModel } from 'models'
 
-interface PlaygroundPageBodyListItemBuilderParams {
+interface TemplatesPageBodyListItemBuilderParams {
   title?: string
   subtitle?: string | string[]
   onClick?: (event: ClickEvent) => void
 }
 
-@HMRouter({ pageUrl: 'PlaygroundPage' })
+@HMRouter({ pageUrl: 'TemplatesPage' })
 @Component
-export struct PlaygroundPage {
+export struct TemplatesPage {
   /** 页面标题 */
-  static readonly PAGE_TITLE: string = 'PlaygroundPage'
+  static readonly PAGE_TITLE: string = 'TemplatesPage'
   /** 页面子标题 */
-  static readonly PAGE_SUBTITLE: string = '各种测试示例'
+  static readonly PAGE_SUBTITLE: string = '各种常见、常用的 UI 模板'
 
   /** 静态方法，用于在示例页面中展示 */
   static examplesPageItemModel() {
     return new ExamplesPageItemModel({
-      title: PlaygroundPage.PAGE_TITLE, subtitle: PlaygroundPage.PAGE_SUBTITLE, onClick: () => {
+      title: TemplatesPage.PAGE_TITLE, subtitle: TemplatesPage.PAGE_SUBTITLE, onClick: () => {
         HMRouterMgr.push({
-          pageUrl: 'PlaygroundPage', param: {}
+          pageUrl: 'TemplatesPage', param: {}
         })
       }
     })
@@ -50,7 +48,7 @@ export struct PlaygroundPage {
           .onClick((event: ClickEvent) => {
             HMRouterMgr.pop()
           })
-        Text(PlaygroundPage.PAGE_TITLE)
+        Text(TemplatesPage.PAGE_TITLE)
           .id('title')
           .fontSize(18)
           .fontColor(0x222222)
@@ -74,29 +72,21 @@ export struct PlaygroundPage {
   @Builder
   pageBodyListBuilder() {
     List({ space: 10 }) {
-      this.pageBodyListItemBuilder({
-        title: '类似与 OC 的结果回调', subtitle: ''
-      })
-      this.pageBodyListItemBuilder({
-        title: '示例：aFuncWithCompletion', subtitle: '', onClick: () => {
-          type Completion = (params: ESObject) => void;
-          let aFuncWithCompletion = (param1: ESObject, params2: ESObject, completion: Completion) => {
-            hilogx.debug(`params: ${param1}, ${params2}`)
-            hilogx.debug(`completion 准备执行...`)
-            completion('我是 completion 的参数')
-            hilogx.debug(`completion 准备结束`)
-          }
 
-          aFuncWithCompletion('pv1', 'pv2', (params: ESObject) => {
-            hilogx.debug(`completion 执行中：params = ${JSON.stringify(params)}`)
-          })
+      // this.pageBodyListItemBuilder({
+      //   title: 'Section title', subtitle: 'Section subtitle'
+      // })
+
+      this.pageBodyListItemBuilder({
+        title: 'ExampleListTemplatePage', subtitle: '基于 ListView 的功能示例页', onClick: () => {
+          HMRouterMgr.push({ pageUrl: 'ExampleListTemplatePage', param: {} })
         }
       })
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
   @Builder
-  pageBodyListItemBuilder(params?: PlaygroundPageBodyListItemBuilderParams) {
+  pageBodyListItemBuilder(params?: TemplatesPageBodyListItemBuilderParams) {
     ListItem() {
       Column() {
         if (!params?.onClick) {
@@ -131,22 +121,11 @@ export struct PlaygroundPage {
       .justifyContent(FlexAlign.Start)
       .alignItems(HorizontalAlign.Start)
       .opacity(params?.onClick ? 1 : 0.7)
-    }
-    .width('100%')
-    .padding({
+    }.width('100%').padding({
       left: 20,
       right: 20,
       top: 10,
       bottom: 10
-    })
-    .backgroundColor(params?.onClick ? Color.White : undefined)
-    .onClick(params?.onClick)
-  }
-
-  test() {
-    let sum = (x: number, y: number) => x + y
-    // 用法：
-    // let result = sum(1, 2)
-
+    }).backgroundColor(params?.onClick ? Color.White : undefined).onClick(params?.onClick)
   }
 }

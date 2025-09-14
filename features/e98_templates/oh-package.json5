@@ -1,0 +1,13 @@
+{
+  "name": "e98_templates",
+  "version": "1.0.0",
+  "description": "Please describe the basic information.",
+  "main": "Index.ets",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "models": "file:../../commons/models",
+    "@andym129/hilogx": "file:../../ohpm_dev/hilogx",
+    "await-to-arkts": "^1.0.3"
+  }
+}

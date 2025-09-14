@@ -73,6 +73,10 @@
     {
       "name": "e04_async",
       "srcPath": "./features/e04_async",
+    },
+    {
+      "name": "e98_templates",
+      "srcPath": "./features/e98_templates",
     }
   ]
 }

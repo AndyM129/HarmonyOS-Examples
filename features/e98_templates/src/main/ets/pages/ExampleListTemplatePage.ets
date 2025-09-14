@@ -1,28 +1,27 @@
 import { hilogx } from '@andym129/hilogx'
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
-import { JSON } from '@kit.ArkTS'
 import { ExamplesPageItemModel } from 'models'
 
-interface PlaygroundPageBodyListItemBuilderParams {
+interface ExampleListTemplatePageBodyListItemBuilderParams {
   title?: string
   subtitle?: string | string[]
   onClick?: (event: ClickEvent) => void
 }
 
-@HMRouter({ pageUrl: 'PlaygroundPage' })
+@HMRouter({ pageUrl: 'ExampleListTemplatePage' })
 @Component
-export struct PlaygroundPage {
+export struct ExampleListTemplatePage {
   /** 页面标题 */
-  static readonly PAGE_TITLE: string = 'PlaygroundPage'
+  static readonly PAGE_TITLE: string = 'ExampleListTemplatePage'
   /** 页面子标题 */
-  static readonly PAGE_SUBTITLE: string = '各种测试示例'
+  static readonly PAGE_SUBTITLE: string = '测试示例页'
 
   /** 静态方法，用于在示例页面中展示 */
   static examplesPageItemModel() {
     return new ExamplesPageItemModel({
-      title: PlaygroundPage.PAGE_TITLE, subtitle: PlaygroundPage.PAGE_SUBTITLE, onClick: () => {
+      title: ExampleListTemplatePage.PAGE_TITLE, subtitle: ExampleListTemplatePage.PAGE_SUBTITLE, onClick: () => {
         HMRouterMgr.push({
-          pageUrl: 'PlaygroundPage', param: {}
+          pageUrl: 'ExampleListTemplatePage', param: {}
         })
       }
     })
@@ -50,7 +49,7 @@ export struct PlaygroundPage {
           .onClick((event: ClickEvent) => {
             HMRouterMgr.pop()
           })
-        Text(PlaygroundPage.PAGE_TITLE)
+        Text(ExampleListTemplatePage.PAGE_TITLE)
           .id('title')
           .fontSize(18)
           .fontColor(0x222222)
@@ -75,28 +74,18 @@ export struct PlaygroundPage {
   pageBodyListBuilder() {
     List({ space: 10 }) {
       this.pageBodyListItemBuilder({
-        title: '类似与 OC 的结果回调', subtitle: ''
+        title: 'Section title', subtitle: 'Section subtitle'
       })
       this.pageBodyListItemBuilder({
-        title: '示例：aFuncWithCompletion', subtitle: '', onClick: () => {
-          type Completion = (params: ESObject) => void;
-          let aFuncWithCompletion = (param1: ESObject, params2: ESObject, completion: Completion) => {
-            hilogx.debug(`params: ${param1}, ${params2}`)
-            hilogx.debug(`completion 准备执行...`)
-            completion('我是 completion 的参数')
-            hilogx.debug(`completion 准备结束`)
-          }
-
-          aFuncWithCompletion('pv1', 'pv2', (params: ESObject) => {
-            hilogx.debug(`completion 执行中：params = ${JSON.stringify(params)}`)
-          })
+        title: 'title title title', subtitle: 'subtitle subtitle subtitle', onClick: () => {
+          hilogx.debugToast(`hello ${ExampleListTemplatePage.PAGE_TITLE}`)
         }
       })
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
   @Builder
-  pageBodyListItemBuilder(params?: PlaygroundPageBodyListItemBuilderParams) {
+  pageBodyListItemBuilder(params?: ExampleListTemplatePageBodyListItemBuilderParams) {
     ListItem() {
       Column() {
         if (!params?.onClick) {
@@ -141,12 +130,5 @@ export struct PlaygroundPage {
     })
     .backgroundColor(params?.onClick ? Color.White : undefined)
     .onClick(params?.onClick)
-  }
-
-  test() {
-    let sum = (x: number, y: number) => x + y
-    // 用法：
-    // let result = sum(1, 2)
-
   }
 }
