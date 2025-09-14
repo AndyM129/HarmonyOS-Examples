@@ -5,7 +5,7 @@ import { ExamplesPageItemModel } from 'models'
 
 interface PlaygroundPageBodyListItemBuilderParams {
   title?: string
-  subtitle?: string
+  subtitle?: string | string[]
   onClick?: (event: ClickEvent) => void
 }
 
@@ -114,9 +114,10 @@ export struct PlaygroundPage {
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
 
-        if (params?.subtitle?.length) {
+        if (params?.subtitle && ((typeof params.subtitle === 'string' && params.subtitle.length) ||
+          (Array.isArray(params.subtitle) && params.subtitle.length))) {
           Blank().height(10)
-          Text(params.subtitle)
+          Text((typeof params.subtitle === 'string' ? params.subtitle : params.subtitle.join('\n\n').trim()))
             .width('100%')
             .fontSize(14)
             .fontColor(Color.Gray)
@@ -130,6 +131,15 @@ export struct PlaygroundPage {
       .justifyContent(FlexAlign.Start)
       .alignItems(HorizontalAlign.Start)
       .opacity(params?.onClick ? 1 : 0.7)
-    }.width('100%').padding(10).backgroundColor(params?.onClick ? Color.White : undefined).onClick(params?.onClick)
+    }
+    .width('100%')
+    .padding({
+      left: 20,
+      right: 20,
+      top: 10,
+      bottom: 10
+    })
+    .backgroundColor(params?.onClick ? Color.White : undefined)
+    .onClick(params?.onClick)
   }
 }
