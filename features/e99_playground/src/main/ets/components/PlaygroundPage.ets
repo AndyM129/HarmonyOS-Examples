@@ -73,7 +73,7 @@ export struct PlaygroundPage {
 
   @Builder
   pageBodyListBuilder() {
-    List({ space: 10 }) {
+    List({ space: 1 }) {
       this.pageBodyListItemBuilder({
         title: '类似与 OC 的结果回调', subtitle: ''
       })

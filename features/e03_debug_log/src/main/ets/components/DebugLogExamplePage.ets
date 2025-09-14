@@ -11,7 +11,7 @@ import { util } from '@kit.ArkTS'
 
 interface DebugLogExamplePageBodyListItemBuilderParams {
   title?: string
-  subtitle?: string
+  subtitle?: string | string[]
   onClick?: (event: ClickEvent) => void
 }
 
@@ -38,7 +38,11 @@ export struct DebugLogExamplePage {
     Column() {
       this.pageTitleBarBuilder()
       this.pageBodyBuilder()
-    }.width('100%').height('100%')
+    }
+    .width('100%')
+    .height('100%')
+    .backgroundColor('#F1F3F5')
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.TOP, SafeAreaEdge.BOTTOM])
   }
 
   // 标题栏
@@ -65,12 +69,17 @@ export struct DebugLogExamplePage {
           })
           .margin({ left: 50, right: 50 })
       }.height(43).width("100%")
-    }.expandSafeArea([SafeAreaType.SYSTEM]).backgroundColor('#F2F3F5')
+    }.expandSafeArea([SafeAreaType.SYSTEM])
   }
 
   @Builder
   pageBodyBuilder() {
-    List({ space: 10 }) {
+    this.pageBodyListBuilder()
+  }
+
+  @Builder
+  pageBodyListBuilder() {
+    List({ space: 1 }) {
       this.pageBodyListItemBuilder({
         title: '使用 hilog 模块（官方推荐方式）',
         subtitle: '鸿蒙提供了系统级的日志框架 HiLog，功能类似 iOS 的 os_log 或 Android 的 Log'
@@ -369,8 +378,6 @@ export struct DebugLogExamplePage {
           // hilog.info(DOMAIN, TAG, "普通信息日志 message=%{public}s", "hello info")
         }
       })
-
-      this.pageBodyListItemBuilder()
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
 
@@ -393,9 +400,10 @@ export struct DebugLogExamplePage {
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
 
-        if (params?.subtitle?.length) {
+        if (params?.subtitle && ((typeof params.subtitle === 'string' && params.subtitle.length) ||
+          (Array.isArray(params.subtitle) && params.subtitle.length))) {
           Blank().height(10)
-          Text(params.subtitle)
+          Text((typeof params.subtitle === 'string' ? params.subtitle : params.subtitle.join('\n\n').trim()))
             .width('100%')
             .fontSize(14)
             .fontColor(Color.Gray)
@@ -404,11 +412,20 @@ export struct DebugLogExamplePage {
             .maxLines(10)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
         }
-      }.layoutWeight(1).justifyContent(FlexAlign.Start).alignItems(HorizontalAlign.Start).opacity(params?.onClick ? 1 : 0.7)
+      }
+      .layoutWeight(1)
+      .justifyContent(FlexAlign.Start)
+      .alignItems(HorizontalAlign.Start)
+      .opacity(params?.onClick ? 1 : 0.7)
     }
     .width('100%')
-    .padding(10)
-    .backgroundColor(params?.onClick ? undefined : '#F2F3F5')
+    .padding({
+      left: 20,
+      right: 20,
+      top: 10,
+      bottom: 10
+    })
+    .backgroundColor(params?.onClick ? Color.White : undefined)
     .onClick(params?.onClick)
   }
 

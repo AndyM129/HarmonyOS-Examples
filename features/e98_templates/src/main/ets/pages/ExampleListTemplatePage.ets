@@ -72,7 +72,7 @@ export struct ExampleListTemplatePage {
 
   @Builder
   pageBodyListBuilder() {
-    List({ space: 10 }) {
+    List({ space: 1 }) {
       this.pageBodyListItemBuilder({
         title: 'Section title', subtitle: 'Section subtitle'
       })
