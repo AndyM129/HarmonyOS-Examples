@@ -65,6 +65,10 @@
     {
       "name": "hilogx",
       "srcPath": "./ohpm_dev/hilogx",
+    },
+    {
+      "name": "e99_playground",
+      "srcPath": "./features/e99_playground",
     }
   ]
 }

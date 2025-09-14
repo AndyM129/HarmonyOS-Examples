@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "e99_playground",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

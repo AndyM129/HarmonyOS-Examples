@@ -1,0 +1,11 @@
+{
+  "module": {
+    "name": "e99_playground_test",
+    "type": "feature",
+    "deviceTypes": [
+      "default"
+    ],
+    "deliveryWithInstall": true,
+    "installationFree": false
+  }
+}
