@@ -1,5 +1,7 @@
+import { promptAction } from '@kit.ArkUI'
 import { hilog } from '@kit.PerformanceAnalysisKit'
 
+// @formatter:off
 export namespace hilogx {
 
   /** 默认 Domain */
@@ -42,6 +44,16 @@ export namespace hilogx {
     labels?: string[]
     format?: string
     args?: ESObject[]
+  }
+
+  export function debugToast(...args: ESObject[]) {
+    let logInfo = parseArgs(LogLevel.DEBUG, ...args)
+    hilog.debug(logInfo?.domain || defaultDomain, logInfo?.tag || defaultTag, logInfo?.format, ...logInfo?.args ?? [])
+
+    let toastMessage = logInfo?.format?.substring(logInfo.format.indexOf('➤') + 1)
+    if (toastMessage && toastMessage.length > 0) {
+      promptAction.showToast({message: toastMessage, duration: 1000})
+    }
   }
 
   export function debug(...args: ESObject[]) {
@@ -166,3 +178,4 @@ export namespace hilogx {
   }
 
 }
+// @formatter:on

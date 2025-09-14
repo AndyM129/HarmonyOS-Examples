@@ -69,6 +69,10 @@
     {
       "name": "e99_playground",
       "srcPath": "./features/e99_playground",
+    },
+    {
+      "name": "e04_async",
+      "srcPath": "./features/e04_async",
     }
   ]
 }

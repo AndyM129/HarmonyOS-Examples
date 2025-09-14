@@ -322,6 +322,12 @@ export struct DebugLogExamplePage {
           hilogx.setMinLogLevel(hilogx.LogLevel.FATAL)
         }
       })
+      this.pageBodyListItemBuilder({
+        title: `hilogx.debugToast`,
+        onClick: () => {
+          hilogx.debugToast('debugToast')
+        }
+      })
 
       this.pageBodyListItemBuilder({
         title: '@free/log(V1.0.0)',

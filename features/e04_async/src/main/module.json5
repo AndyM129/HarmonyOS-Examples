@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "e04_async",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}
