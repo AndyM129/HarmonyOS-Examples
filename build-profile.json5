@@ -64,7 +64,7 @@
     },
     {
       "name": "hilogx",
-      "srcPath": "./ohpm_dev/hilogx",
+      "srcPath": "./oh_modules_dev/hilogx"
     },
     {
       "name": "e99_playground",

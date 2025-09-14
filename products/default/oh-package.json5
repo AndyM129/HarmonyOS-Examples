@@ -13,6 +13,6 @@
     "e98_templates": "file:../../features/e98_templates",
     "e99_playground": "file:../../features/e99_playground",
     "models": "file:../../commons/models",
-    "@andym129/hilogx": "file:../../ohpm_dev/hilogx"
+    "@andym129/hilogx": "file:../../oh_modules_dev/hilogx"
   }
 }
