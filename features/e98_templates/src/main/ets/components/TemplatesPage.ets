@@ -1,5 +1,6 @@
 import { HMRouter, HMRouterMgr } from '@hadss/hmrouter'
 import { ExamplesPageItemModel } from 'models'
+import { ButtonsExampleTemplatePage } from '../pages/ButtonsExampleTemplatePage'
 
 interface TemplatesPageBodyListItemBuilderParams {
   title?: string
@@ -71,7 +72,7 @@ export struct TemplatesPage {
 
   @Builder
   pageBodyListBuilder() {
-    List({ space: 10 }) {
+    List({ space: 1 }) {
 
       // this.pageBodyListItemBuilder({
       //   title: 'Section title', subtitle: 'Section subtitle'
@@ -81,6 +82,11 @@ export struct TemplatesPage {
         title: 'ExampleListTemplatePage', subtitle: '基于 ListView 的功能示例页', onClick: () => {
           HMRouterMgr.push({ pageUrl: 'ExampleListTemplatePage', param: {} })
         }
+      })
+      this.pageBodyListItemBuilder({
+        title: ButtonsExampleTemplatePage.PAGE_TITLE,
+        subtitle: ButtonsExampleTemplatePage.PAGE_SUBTITLE,
+        onClick: ButtonsExampleTemplatePage.examplesPageItemModel().onClick
       })
     }.layoutWeight(1).expandSafeArea([SafeAreaType.SYSTEM])
   }
