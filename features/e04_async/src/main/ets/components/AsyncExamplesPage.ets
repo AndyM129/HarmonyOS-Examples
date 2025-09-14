@@ -270,7 +270,16 @@ export struct AsyncExamplesPage {
       .justifyContent(FlexAlign.Start)
       .alignItems(HorizontalAlign.Start)
       .opacity(params?.onClick ? 1 : 0.7)
-    }.width('100%').padding(10).backgroundColor(params?.onClick ? Color.White : undefined).onClick(params?.onClick)
+    }
+    .width('100%')
+    .padding({
+      left: 20,
+      right: 20,
+      top: 10,
+      bottom: 10
+    })
+    .backgroundColor(params?.onClick ? Color.White : undefined)
+    .onClick(params?.onClick)
   }
 
   // 模拟一个返回 Promise 的异步函数
